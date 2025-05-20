@@ -2,10 +2,24 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel {
-    public GamePanel(int windowWidth, int windowHeight, int tileWidth, int tileHeight) {
+    private MapModel mapModel;
+    private MapRenderer mapRenderer;
+
+
+    public GamePanel(int rows, int cols) {
         setLayout(null);
         setBackground(Color.BLACK);
-        setPreferredSize(new Dimension(windowWidth, windowHeight));
-        setBounds(0, 0, windowWidth, windowHeight);
+
+        int panelWidth = 45 * cols;
+        int panelHeight = 45 * rows;
+        setPreferredSize(new Dimension(panelWidth, panelHeight));
+
+        mapModel = new MapModel(rows, cols);
+        int[][] map = mapModel.getMap();
+
+        mapRenderer = new MapRenderer(map, rows, cols);
+
+        add(mapRenderer);
+        setFocusable(true);
     }
 }

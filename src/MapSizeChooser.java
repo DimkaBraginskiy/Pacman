@@ -106,8 +106,30 @@ public class MapSizeChooser extends JPanel {
         button12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                cardLayout.show(cardPanel, "Game");
-                cardPanel.getComponent(1).requestFocusInWindow();
+                Window window = SwingUtilities.getWindowAncestor(button12);
+                if (window instanceof MainWindow) {
+                    ((MainWindow)window).showGamePanel(12, 12);
+                }
+            }
+        });
+
+        button16.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Window window = SwingUtilities.getWindowAncestor(button16);
+                if (window instanceof MainWindow) {
+                    ((MainWindow)window).showGamePanel(16, 16);
+                }
+            }
+        });
+
+        button24.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Window window = SwingUtilities.getWindowAncestor(button24);
+                if (window instanceof MainWindow) {
+                    ((MainWindow)window).showGamePanel(24, 24);
+                }
             }
         });
     }

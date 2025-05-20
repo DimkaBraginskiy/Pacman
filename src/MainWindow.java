@@ -38,6 +38,14 @@ public class MainWindow extends JFrame {
         cardLayout.show(mainPanel, "MainMenu");
     }
 
+    public void showGamePanel(int rows, int cols) {
+        GamePanel gamePanel = new GamePanel(rows, cols);
+        getContentPane().removeAll();
+        add(gamePanel);
+        pack(); // Resizes window to fit the GamePanel
+        gamePanel.requestFocusInWindow();
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             MainWindow mainWindow = new MainWindow();
