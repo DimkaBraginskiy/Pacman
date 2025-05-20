@@ -1,5 +1,3 @@
-import Controller.MainMenuController;
-import View.MainMenuView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,8 +7,12 @@ public class MainWindow extends JFrame {
 
 
     public MainWindow() {
+        int windowWidth = 800;
+        int windowHeight = 800;
+
+
         setTitle("Pac-Man");
-        setSize(800, 800);
+        setSize(windowWidth, windowHeight);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -22,8 +24,7 @@ public class MainWindow extends JFrame {
         MainMenu mainMenu = new MainMenu(cardLayout, mainPanel);
 
 
-        JPanel sizeChooserPanel = new JPanel();
-        sizeChooserPanel.add(new JLabel("Size Chooser Screen"));
+        MapSizeChooser sizeChooserPanel = new MapSizeChooser(cardLayout, mainPanel, windowWidth, windowHeight);
 
         JPanel scoresPanel = new JPanel();
         scoresPanel.add(new JLabel("High Scores Screen"));

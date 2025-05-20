@@ -62,17 +62,17 @@ public class MainMenu extends JPanel {
         exitButton.setBorderPainted(false);
         exitButton.setBorder(null);
 
-        add(Box.createVerticalGlue());
+        //add(Box.createVerticalGlue());
         add(logo);
-        add(Box.createVerticalStrut(20));
+        //add(Box.createVerticalStrut(20));
         add(logoText);
-        add(Box.createVerticalStrut(20));
+        //add(Box.createVerticalStrut(20));
         add(startButton);
-        add(Box.createVerticalStrut(20));
+        //add(Box.createVerticalStrut(20));
         add(scoresButton);
-        add(Box.createVerticalStrut(20));
+        //add(Box.createVerticalStrut(20));
         add(exitButton);
-        add(Box.createVerticalGlue());
+        //add(Box.createVerticalGlue());
 
 
         startButton.addActionListener(new ActionListener() {
