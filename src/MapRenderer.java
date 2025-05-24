@@ -3,13 +3,14 @@ import java.awt.*;
 
 public class MapRenderer extends JPanel {
     private MapModel mapModel;
-    private final int cellSize = 45;
+    private int cellSize = 40; // Default cell size
     private int[][] map;
     private JLabel[][] mapLabels;
 
-    public MapRenderer(int[][] map, int rows, int cols) {
+    public MapRenderer(int[][] map, int rows, int cols, int cellSize) {
         this.map = map;
         this.mapLabels = new JLabel[rows][cols];
+        this.cellSize = cellSize;
 
         setLayout(null);
         setBackground(Color.BLACK);
@@ -25,6 +26,9 @@ public class MapRenderer extends JPanel {
                 cell.setBounds(col * cellSize, row * cellSize, cellSize, cellSize);
 
                 switch (map[row][col]){
+                    case -1:
+                        cell.setIcon(iconGenerate("icons/Walls/EmptyTile.png", cellSize, cellSize));
+                        break;
                     case 1:
                         cell.setIcon(iconGenerate("icons/Walls/WallHorizontal.png", cellSize, cellSize));
                         break;
@@ -42,6 +46,12 @@ public class MapRenderer extends JPanel {
                         break;
                     case 6:
                         cell.setIcon(iconGenerate("icons/Walls/RightDownClose.png", cellSize, cellSize));
+                        break;
+                    case 7:
+                        cell.setIcon(iconGenerate("icons/Walls/HorizontalClosedRight.png", cellSize, cellSize));
+                        break;
+                    case 8:
+                        cell.setIcon(iconGenerate("icons/Walls/HorizontalClosedLeft.png", cellSize, cellSize));
                         break;
                     case 0:
                         cell.setIcon(iconGenerate("icons/Dots/SmallDot.png", cellSize, cellSize));

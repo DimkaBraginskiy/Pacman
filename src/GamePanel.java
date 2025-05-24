@@ -6,18 +6,18 @@ public class GamePanel extends JPanel {
     private MapRenderer mapRenderer;
 
 
-    public GamePanel(int rows, int cols) {
+    public GamePanel(int rows, int cols, int tileSize) {
         setLayout(null);
         setBackground(Color.BLACK);
 
-        int panelWidth = 45 * cols;
-        int panelHeight = 45 * rows;
+        int panelWidth = tileSize * cols;
+        int panelHeight = tileSize * rows;
         setPreferredSize(new Dimension(panelWidth, panelHeight));
 
         mapModel = new MapModel(rows, cols);
         int[][] map = mapModel.getMap();
 
-        mapRenderer = new MapRenderer(map, rows, cols);
+        mapRenderer = new MapRenderer(map, rows, cols, tileSize);
 
         add(mapRenderer);
         setFocusable(true);

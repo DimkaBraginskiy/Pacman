@@ -95,6 +95,11 @@ public class MapSizeChooser extends JPanel {
         button24.setBorderPainted(false);
         button24.setBorder(null);
 
+        JButton buttonCustomSize = new JButton("Custom Size");
+        buttonCustomSize.setBounds(300, 350, 200, 50);
+        buttonCustomSize.setAlignmentX(CENTER_ALIGNMENT);
+        add(buttonCustomSize);
+
         button12.setRolloverIcon(Map12TextHover);
         button16.setRolloverIcon(Map16TextHover);
         button10.setRolloverIcon(Map10TextHover);
@@ -103,12 +108,22 @@ public class MapSizeChooser extends JPanel {
 
 
 
+        button10.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Window window = SwingUtilities.getWindowAncestor(button10);
+                if (window instanceof MainWindow) {
+                    ((MainWindow)window).showGamePanel(10, 10,45);
+                }
+            }
+        });
+
         button12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 Window window = SwingUtilities.getWindowAncestor(button12);
                 if (window instanceof MainWindow) {
-                    ((MainWindow)window).showGamePanel(12, 12);
+                    ((MainWindow)window).showGamePanel(12, 12, 45);
                 }
             }
         });
@@ -118,7 +133,17 @@ public class MapSizeChooser extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 Window window = SwingUtilities.getWindowAncestor(button16);
                 if (window instanceof MainWindow) {
-                    ((MainWindow)window).showGamePanel(16, 16);
+                    ((MainWindow)window).showGamePanel(16, 16, 45);
+                }
+            }
+        });
+
+        button20.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Window window = SwingUtilities.getWindowAncestor(button20);
+                if (window instanceof MainWindow) {
+                    ((MainWindow)window).showGamePanel(20, 20, 30);
                 }
             }
         });
@@ -128,10 +153,32 @@ public class MapSizeChooser extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 Window window = SwingUtilities.getWindowAncestor(button24);
                 if (window instanceof MainWindow) {
-                    ((MainWindow)window).showGamePanel(24, 24);
+                    ((MainWindow)window).showGamePanel(24, 24, 30);
                 }
             }
         });
+
+        buttonCustomSize.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Window window = SwingUtilities.getWindowAncestor(buttonCustomSize);
+                if(window instanceof MainWindow){
+
+                    CustomMapSizeDialog customMapSizeDialog = new CustomMapSizeDialog((MainWindow) window);
+                    customMapSizeDialog.setVisible(true);
+
+                    if (customMapSizeDialog.isConfirmed()) {
+                        int rows = customMapSizeDialog.getRows();
+                        int cols = customMapSizeDialog.getCols();
+                        int cellSize = customMapSizeDialog.getCellSize();
+
+                        ((MainWindow) window).showGamePanel(rows, cols, cellSize);
+                    }
+                }
+            }
+        });
+
+
     }
 
 

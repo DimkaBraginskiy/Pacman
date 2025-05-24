@@ -38,8 +38,8 @@ public class MainWindow extends JFrame {
         cardLayout.show(mainPanel, "MainMenu");
     }
 
-    public void showGamePanel(int rows, int cols) {
-        GamePanel gamePanel = new GamePanel(rows, cols);
+    public void showGamePanel(int rows, int cols, int tileSize) {
+        GamePanel gamePanel = new GamePanel(rows, cols, tileSize);
         getContentPane().removeAll();
         add(gamePanel);
         pack(); // Resizes window to fit the GamePanel
