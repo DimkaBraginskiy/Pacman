@@ -53,6 +53,24 @@ public class MapRenderer extends JPanel {
                     case 8:
                         cell.setIcon(iconGenerate("icons/Walls/HorizontalClosedLeft.png", cellSize, cellSize));
                         break;
+                    case 9:
+                        cell.setIcon(iconGenerate("icons/Walls/VerticalClosedUp.png", cellSize, cellSize));
+                        break;
+                    case 10:
+                        cell.setIcon(iconGenerate("icons/Walls/VerticalClosedDown.png", cellSize, cellSize));
+                        break;
+                    case 11:
+                        cell.setIcon(iconGenerate("icons/Walls/TriConnectorLeft.png", cellSize, cellSize));
+                        break;
+                    case 12:
+                        cell.setIcon(iconGenerate("icons/Walls/TriConnectorRight.png", cellSize, cellSize));
+                        break;
+                    case 13:
+                        cell.setIcon(iconGenerate("icons/Walls/TriConnectorUp.png", cellSize, cellSize));
+                        break;
+                    case 14:
+                        cell.setIcon(iconGenerate("icons/Walls/TriConnectorDown.png", cellSize, cellSize));
+                        break;
                     case 0:
                         cell.setIcon(iconGenerate("icons/Dots/SmallDot.png", cellSize, cellSize));
                         break;
