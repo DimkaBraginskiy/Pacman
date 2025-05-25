@@ -1,3 +1,5 @@
+package oldMapApproach;
+
 import javax.swing.*;
 import java.awt.*;
 

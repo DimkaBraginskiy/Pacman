@@ -1,3 +1,5 @@
+package oldMapApproach;
+
 public class MapModel {
     private int rows;
     private int cols;
