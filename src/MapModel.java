@@ -82,13 +82,6 @@ public class MapModel {
                     map[rows/2+1][cols/2-3] = 5;
                     map[rows/2+1][cols/2+2] = 6;
                 }
-
-
-
-
-
-
-
             }
         }
     }

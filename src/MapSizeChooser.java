@@ -42,6 +42,9 @@ public class MapSizeChooser extends JPanel {
         ImageIcon Map24TextNormal = iconGenerate("icons/Buttons/24x24Normal.png",150,40);
         ImageIcon Map24TextHover = iconGenerate("icons/Buttons/24x24Hover.png",150,40);
 
+        ImageIcon CustomButtonNormal = iconGenerate("icons/Buttons/CustomSizeButtonNormal.png",200,60);
+        ImageIcon CustomButtonHover = iconGenerate("icons/Buttons/CustomSizeButtonHover.png",200,60);
+
 
         JLabel topText = new JLabel(selectMapText);
         topText.setBounds(250,20,300,100);
@@ -95,16 +98,20 @@ public class MapSizeChooser extends JPanel {
         button24.setBorderPainted(false);
         button24.setBorder(null);
 
-        JButton buttonCustomSize = new JButton("Custom Size");
+        JButton buttonCustomSize = new JButton(CustomButtonNormal);
         buttonCustomSize.setBounds(300, 350, 200, 50);
         buttonCustomSize.setAlignmentX(CENTER_ALIGNMENT);
         add(buttonCustomSize);
+        buttonCustomSize.setContentAreaFilled(false);
+        buttonCustomSize.setBorderPainted(false);
+        buttonCustomSize.setBorder(null);
 
         button12.setRolloverIcon(Map12TextHover);
         button16.setRolloverIcon(Map16TextHover);
         button10.setRolloverIcon(Map10TextHover);
         button20.setRolloverIcon(Map20TextHover);
         button24.setRolloverIcon(Map24TextHover);
+        buttonCustomSize.setRolloverIcon(CustomButtonHover);
 
 
 
