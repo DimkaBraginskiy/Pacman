@@ -24,7 +24,7 @@ public class MainWindow extends JFrame {
         MainMenu mainMenu = new MainMenu(cardLayout, mainPanel);
 
 
-        MapSizeChooser sizeChooserPanel = new MapSizeChooser(cardLayout, mainPanel, windowWidth, windowHeight);
+        MapSizeChooser sizeChooserPanel = new MapSizeChooser(cardLayout, mainPanel, this);
 
         JPanel scoresPanel = new JPanel();
         scoresPanel.add(new JLabel("High Scores Screen"));

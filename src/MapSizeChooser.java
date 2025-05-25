@@ -19,12 +19,15 @@ public class MapSizeChooser extends JPanel {
 
 
 
-    public MapSizeChooser(CardLayout cardLayout, JPanel cardPanel, int windowWidth, int windowHeight){
+    public MapSizeChooser(CardLayout cardLayout, JPanel cardPanel, MainWindow mainWindow){
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
 
         setLayout(null);
         setBackground(Color.BLACK);
+
+
+        MapSizeActionHandler handler = new MapSizeActionHandler(mainWindow);
 
         ImageIcon selectMapText = iconGenerate("icons/Buttons/SelectMapText.png",300,100);
         ImageIcon Map12TextNormal = iconGenerate("icons/Buttons/12x12Normal.png",150,40);
@@ -115,77 +118,12 @@ public class MapSizeChooser extends JPanel {
 
 
 
-        button10.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                Window window = SwingUtilities.getWindowAncestor(button10);
-                if (window instanceof MainWindow) {
-                    ((MainWindow)window).showGamePanel(10, 10,45);
-                }
-            }
-        });
-
-        button12.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                Window window = SwingUtilities.getWindowAncestor(button12);
-                if (window instanceof MainWindow) {
-                    ((MainWindow)window).showGamePanel(12, 12, 45);
-                }
-            }
-        });
-
-        button16.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                Window window = SwingUtilities.getWindowAncestor(button16);
-                if (window instanceof MainWindow) {
-                    ((MainWindow)window).showGamePanel(16, 16, 45);
-                }
-            }
-        });
-
-        button20.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                Window window = SwingUtilities.getWindowAncestor(button20);
-                if (window instanceof MainWindow) {
-                    ((MainWindow)window).showGamePanel(20, 20, 30);
-                }
-            }
-        });
-
-        button24.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                Window window = SwingUtilities.getWindowAncestor(button24);
-                if (window instanceof MainWindow) {
-                    ((MainWindow)window).showGamePanel(24, 24, 30);
-                }
-            }
-        });
-
-        buttonCustomSize.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                Window window = SwingUtilities.getWindowAncestor(buttonCustomSize);
-                if(window instanceof MainWindow){
-
-                    CustomMapSizeDialog customMapSizeDialog = new CustomMapSizeDialog((MainWindow) window);
-                    customMapSizeDialog.setVisible(true);
-
-                    if (customMapSizeDialog.isConfirmed()) {
-                        int rows = customMapSizeDialog.getRows();
-                        int cols = customMapSizeDialog.getCols();
-                        int cellSize = customMapSizeDialog.getCellSize();
-
-                        ((MainWindow) window).showGamePanel(rows, cols, cellSize);
-                    }
-                }
-            }
-        });
-
-
+        button10.addActionListener(handler.getFixedSizeListener(10, 10, 45));
+        button12.addActionListener(handler.getFixedSizeListener(12, 12, 45));
+        button16.addActionListener(handler.getFixedSizeListener(16, 16, 45));
+        button20.addActionListener(handler.getFixedSizeListener(20, 20, 30));
+        button24.addActionListener(handler.getFixedSizeListener(24, 24, 30));
+        buttonCustomSize.addActionListener(handler.getCustomSizeListener());
     }
 
 
