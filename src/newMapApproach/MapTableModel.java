@@ -32,4 +32,10 @@ public class MapTableModel extends AbstractTableModel {
     public int getCellValue(int rowIndex, int columnIndex) {
         return map[rowIndex][columnIndex];
     }
+
+    public void setValueAt(int value, int row, int col) {
+        map[row][col] = value;
+        fireTableCellUpdated(row, col);
+    }
+
 }

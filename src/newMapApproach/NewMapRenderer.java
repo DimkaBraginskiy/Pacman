@@ -38,4 +38,9 @@ public class NewMapRenderer extends JPanel {
         setPreferredSize(new Dimension(cols * cellSize, rows * cellSize));
         table.setPreferredScrollableViewportSize(new Dimension(cols * cellSize, rows * cellSize));
     }
+
+    public MapTableModel getModel() {
+        return tableModel;
+    }
+
 }

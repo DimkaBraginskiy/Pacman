@@ -1,4 +1,4 @@
-package oldMapApproach;
+package newMapApproach;
 
 public class MapModel {
     private int rows;

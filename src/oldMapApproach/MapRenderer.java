@@ -1,5 +1,7 @@
 package oldMapApproach;
 
+import newMapApproach.MapModel;
+
 import javax.swing.*;
 import java.awt.*;
 
