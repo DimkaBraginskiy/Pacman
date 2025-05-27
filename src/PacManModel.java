@@ -42,16 +42,19 @@ public class PacManModel {
         if(canMove(newX, newY)){
             x = newX;
             y = newY;
-            System.out.println("PacMan at " + x + " " + y);
+            System.out.println("PacMan at " + x + " " + y + " " + direction);
         }
     }
 
     private boolean canMove(int x, int y){
-        if(x < 0 || x >= map[0].length - 2 || y < 0 || y >= map.length-2 ){
+        // First check boundaries
+        if (x < 0 || x >= map[0].length || y < 0 || y >= map.length) {
             return false;
         }
 
-        return map[y][x] != 1; //horizontal wall check for now
+        // Then check if tile is a wall (1-14)
+        int tile = map[y][x];  // Note: typically map[y][x] for row-major order
+        return tile < 1 || tile > 14;
     }
 
     public int getX() { return x; }

@@ -14,6 +14,7 @@ public class PacManController {
 
     public void setDirection(Direction direction){
         model.setDirection(direction);
+        view.setCurrentDirection(direction);
     }
 
     public void startMovementThread(){
