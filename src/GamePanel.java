@@ -8,7 +8,8 @@ import java.awt.event.KeyEvent;
 
 public class GamePanel extends JPanel {
     private NewMapRenderer mapRenderer;
-    private PacMan pacMan;
+    private PacManView pacManView;
+    private PacManController pacManController;
     private int tileSize;
 
     public GamePanel(int rows, int cols, int tileSize) {
@@ -21,14 +22,21 @@ public class GamePanel extends JPanel {
         MapModel mapModel = new MapModel(rows, cols);
         int[][] map = mapModel.getMap();
 
+        PacManModel pacManModel = new PacManModel(1,1,tileSize,map);
+        pacManView = new PacManView(tileSize);
+        pacManController = new PacManController(pacManModel, pacManView);
+
+        pacManView.setLocation(pacManModel.getPixelX(), pacManModel.getPixelY());
+        add(pacManView);
+
+
         // Create map renderer
         mapRenderer = new NewMapRenderer(map, rows, cols, tileSize);
         mapRenderer.setBounds(0, 0, cols * tileSize, rows * tileSize);
         add(mapRenderer);
 
-        // Create Pac-Man (starting at position 1,1)
-        pacMan = new PacMan(this, map, tileSize, 1, 1);
-        add(pacMan);
+
+
 
         // Set focus and key listener
         setFocusable(true);
@@ -41,16 +49,16 @@ public class GamePanel extends JPanel {
             public void keyPressed(KeyEvent e) {
                 switch(e.getKeyCode()) {
                     case KeyEvent.VK_UP:
-                        pacMan.setDirection(Direction.UP);
+                        pacManController.setDirection(Direction.UP);
                         break;
                     case KeyEvent.VK_DOWN:
-                        pacMan.setDirection(Direction.DOWN);
+                        pacManController.setDirection(Direction.DOWN);
                         break;
                     case KeyEvent.VK_LEFT:
-                        pacMan.setDirection(Direction.LEFT);
+                        pacManController.setDirection(Direction.LEFT);
                         break;
                     case KeyEvent.VK_RIGHT:
-                        pacMan.setDirection(Direction.RIGHT);
+                        pacManController.setDirection(Direction.RIGHT);
                         break;
                 }
             }
