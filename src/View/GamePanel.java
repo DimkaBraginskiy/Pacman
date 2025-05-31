@@ -1,3 +1,8 @@
+package View;
+
+import Controller.PacManController;
+import Model.Direction;
+import Model.PacManModel;
 import newMapApproach.MapModel;
 import newMapApproach.NewMapRenderer;
 
@@ -11,6 +16,8 @@ public class GamePanel extends JPanel {
     private PacManView pacManView;
     private PacManController pacManController;
     private int tileSize;
+    private int score = 0;
+    private int prevX, prevY;
 
     public GamePanel(int rows, int cols, int tileSize) {
         this.tileSize = tileSize;
@@ -36,7 +43,8 @@ public class GamePanel extends JPanel {
         add(mapRenderer);
 
 
-
+        prevX = pacManModel.getX();
+        prevY = pacManModel.getY();
 
         // Set focus and key listener
         setFocusable(true);
@@ -49,15 +57,19 @@ public class GamePanel extends JPanel {
             public void keyPressed(KeyEvent e) {
                 switch(e.getKeyCode()) {
                     case KeyEvent.VK_UP:
+                        System.out.println("up");
                         pacManController.setDirection(Direction.UP);
                         break;
                     case KeyEvent.VK_DOWN:
+                        System.out.println("down");
                         pacManController.setDirection(Direction.DOWN);
                         break;
                     case KeyEvent.VK_LEFT:
+                        System.out.println("left");
                         pacManController.setDirection(Direction.LEFT);
                         break;
                     case KeyEvent.VK_RIGHT:
+                        System.out.println("right");
                         pacManController.setDirection(Direction.RIGHT);
                         break;
                 }

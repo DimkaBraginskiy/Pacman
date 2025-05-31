@@ -1,6 +1,9 @@
+package View;
+
+import Model.Direction;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.EnumMap;
 
 public class PacManView extends JLabel {

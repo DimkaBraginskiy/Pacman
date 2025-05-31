@@ -1,3 +1,5 @@
+package Model;
+
 public class PacManModel {
     private int x, y;
     private Direction direction = Direction.NONE;
@@ -25,21 +27,22 @@ public class PacManModel {
         int newY = y;
 
         switch (direction){
-            case UP:
+            case Direction.UP:
                 newY--;
                 break;
-            case DOWN:
+            case Direction.DOWN:
                 newY++;
                 break;
-            case RIGHT:
+            case Direction.RIGHT:
                 newX++;
                 break;
-            case LEFT:
+            case Direction.LEFT:
                 newX--;
                 break;
         }
 
         if(canMove(newX, newY)){
+
             x = newX;
             y = newY;
             System.out.println("PacMan at " + x + " " + y + " " + direction);
