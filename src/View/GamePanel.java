@@ -7,6 +7,8 @@ import java.awt.event.KeyAdapter;
 public class GamePanel extends JPanel {
     private MapRenderer mapRenderer;
     private PacManView pacManView;
+    private JLabel scoreLabel;
+    private JLabel timeLabel;
 
     public GamePanel(int rows, int cols, int tileSize, int[][] map, PacManView pacManView) {
         setLayout(null);
@@ -21,10 +23,26 @@ public class GamePanel extends JPanel {
         mapRenderer = new MapRenderer(map, rows, cols, tileSize);
         mapRenderer.setBounds(0, 0, cols * tileSize, rows * tileSize);
         add(mapRenderer);
+
+        //Score label:
+        scoreLabel = new JLabel("Score: 0");
+        scoreLabel.setForeground(Color.WHITE);
+        scoreLabel.setBounds(10, rows * tileSize + 5, 100, 30);
+        add(scoreLabel);
+
+        //Time label:
+        timeLabel = new JLabel("Time: 0");
+        timeLabel.setForeground(Color.WHITE);
+        timeLabel.setBounds(150, rows * tileSize + 5, 100, 30 );
+        add(timeLabel);
     }
 
-    public void updateDot(int x, int y) {
-        mapRenderer.getModel().setValueAt(-1, y, x); // -1 represents empty space
+    public void updateScore(int score){
+        SwingUtilities.invokeLater(() -> scoreLabel.setText("Score: " + score));
+    }
+
+    public void updateTime(int timeInSeconds){
+        SwingUtilities.invokeLater(() -> timeLabel.setText("Time: " + timeInSeconds));
     }
 
     public void attachKeyListener(KeyAdapter adapter){

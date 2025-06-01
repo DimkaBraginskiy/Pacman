@@ -1,16 +1,20 @@
 package Model;
 
+import Controller.GameController;
+
 public class PacManModel {
     private int x, y;
     private Direction direction = Direction.NONE;
     private final int tileSize;
     private final MapModel mapModel;
+    private final GameController gameController;
 
-    public PacManModel(int startX, int startY, int tileSize, MapModel mapModel) {
+    public PacManModel(int startX, int startY, int tileSize, MapModel mapModel, GameController gameController) {
         this.x = startX;
         this.y = startY;
         this.tileSize = tileSize;
         this.mapModel = mapModel;
+        this.gameController = gameController;
     }
 
 
@@ -46,7 +50,13 @@ public class PacManModel {
             x = newX;
             y = newY;
 
-            mapModel.clearDotAt(y,x);
+
+            if(mapModel.getMap()[y][x] == 0){
+                mapModel.clearDotAt(y,x);
+                gameController.increaseScore();
+            }
+
+
 
             System.out.println("PacMan at " + x + " " + y + " " + direction);
         }
