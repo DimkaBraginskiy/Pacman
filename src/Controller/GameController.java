@@ -19,9 +19,9 @@ public class GameController {
 
     public GameController(MainFrame mainFrame, int rows, int cols, int tileSize) {
         MapModel mapModel = new MapModel(rows, cols);
-        int[][] map = mapModel.getMap();
+        int[][] map = mapModel.getMap(); // getting map from mapmodel
 
-        pacManModel = new PacManModel(1, 1, tileSize, map);
+        pacManModel = new PacManModel(1, 1, tileSize, mapModel);
         pacManView = new PacManView(tileSize);
         pacManView.setLocation(pacManModel.getPixelX(), pacManModel.getPixelY());
 
@@ -29,7 +29,7 @@ public class GameController {
 
         pacManController = new PacManController(pacManModel, pacManView);
 
-        gamePanel.attachKeyListener(createKeyListener());
+        gamePanel.attachKeyListener(pacManController.getKeyAdapter());
 
         mainFrame.addPanel("GamePanel", gamePanel);
         mainFrame.showPanel("GamePanel");
@@ -38,23 +38,5 @@ public class GameController {
         mainFrame.setLocationRelativeTo(null);
 
         gamePanel.requestFocusInWindow();
-    }
-
-    private KeyAdapter createKeyListener() {
-        return new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                Direction dir = switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP -> Direction.UP;
-                    case KeyEvent.VK_DOWN -> Direction.DOWN;
-                    case KeyEvent.VK_LEFT -> Direction.LEFT;
-                    case KeyEvent.VK_RIGHT -> Direction.RIGHT;
-                    default -> null;
-                };
-                if (dir != null) {
-                    pacManController.setDirection(dir);
-                }
-            }
-        };
     }
 }

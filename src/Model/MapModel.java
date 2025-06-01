@@ -146,6 +146,12 @@ public class MapModel {
         }
     }
 
+    public void clearDotAt(int row, int col){
+        if(map[row][col] == 0){
+            map[row][col] = -1;
+        }
+    }
+
 
     public int[][] getMap() {
         return map;

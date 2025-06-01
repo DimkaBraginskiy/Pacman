@@ -4,13 +4,13 @@ public class PacManModel {
     private int x, y;
     private Direction direction = Direction.NONE;
     private final int tileSize;
-    private final int [][]map;
+    private final MapModel mapModel;
 
-    public PacManModel(int startX, int startY, int tileSize, int[][] map) {
+    public PacManModel(int startX, int startY, int tileSize, MapModel mapModel) {
         this.x = startX;
         this.y = startY;
         this.tileSize = tileSize;
-        this.map = map;
+        this.mapModel = mapModel;
     }
 
 
@@ -45,18 +45,22 @@ public class PacManModel {
 
             x = newX;
             y = newY;
+
+            mapModel.clearDotAt(y,x);
+
             System.out.println("PacMan at " + x + " " + y + " " + direction);
         }
     }
 
     private boolean canMove(int x, int y){
+
         // First check boundaries
-        if (x < 0 || x >= map[0].length || y < 0 || y >= map.length) {
+        if (x < 0 || x >= mapModel.getMap()[0].length || y < 0 || y >= mapModel.getMap().length) {
             return false;
         }
 
         // Then check if tile is a wall (1-14)
-        int tile = map[y][x];  // Note: typically map[y][x] for row-major order
+        int tile = mapModel.getMap()[y][x];  // Note: typically map[y][x] for row-major order
         return tile < 1 || tile > 14;
     }
 
