@@ -32,12 +32,6 @@ public class MainFrame extends JFrame {
         cardLayout.show(cardPanel, name);
     }
 
-    public void showGamePanel(int rows, int cols, int tileSize) {
-        GamePanel gamePanel = new GamePanel(rows, cols, tileSize);
-        addPanel("GamePanel", gamePanel);
-        showPanel("GamePanel");
-    }
-
     public JPanel getPanel(){
         return cardPanel;
     }

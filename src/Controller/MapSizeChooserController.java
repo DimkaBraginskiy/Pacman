@@ -16,25 +16,25 @@ public class MapSizeChooserController {
         mainFrame.showPanel("Size Chooser");
 
         mapSizeChooser.button10.addActionListener(e ->
-                mainFrame.showGamePanel(10, 10, 45));
+                new GameController(mainFrame,10, 10, 45));
 
         mapSizeChooser.button12.addActionListener(e ->
-                mainFrame.showGamePanel(12, 12, 45));
+                new GameController(mainFrame,12, 12, 45));
 
         mapSizeChooser.button16.addActionListener(e ->
-                mainFrame.showGamePanel(16, 16, 45));
+                new GameController(mainFrame,16, 16, 45));
 
         mapSizeChooser.button20.addActionListener(e ->
-                mainFrame.showGamePanel(20, 20, 30));
+                new GameController(mainFrame,20, 20, 30));
 
         mapSizeChooser.button24.addActionListener(e ->
-                mainFrame.showGamePanel(24, 24, 30));
+                new GameController(mainFrame,24, 24, 30));
 
         mapSizeChooser.buttonCustom.addActionListener(e -> {
             CustomMapSizeDialog dialog = new CustomMapSizeDialog(mainFrame);
             dialog.setVisible(true);
             if (dialog.isConfirmed()) {
-                mainFrame.showGamePanel(dialog.getRows(), dialog.getCols(), dialog.getCellSize());
+                new GameController(mainFrame, dialog.getRows(), dialog.getCols(), dialog.getCellSize());
             }
         });
     }
