@@ -15,9 +15,10 @@ public class MainFrame extends JFrame {
 
 
         setTitle("Pac-Man");
-        setSize(windowWidth, windowHeight);
+        //setSize(windowWidth, windowHeight);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
 
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);

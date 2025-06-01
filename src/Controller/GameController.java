@@ -5,7 +5,7 @@ import Model.PacManModel;
 import View.GamePanel;
 import View.MainFrame;
 import View.PacManView;
-import newMapApproach.MapModel;
+import Model.MapModel;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -33,6 +33,10 @@ public class GameController {
 
         mainFrame.addPanel("GamePanel", gamePanel);
         mainFrame.showPanel("GamePanel");
+
+        mainFrame.pack();
+        mainFrame.setLocationRelativeTo(null);
+
         gamePanel.requestFocusInWindow();
     }
 

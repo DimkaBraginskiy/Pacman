@@ -14,6 +14,8 @@ public class Main {
             new MainMenuController(mainWindow);
 
 
+            mainWindow.pack();
+            mainWindow.setLocationRelativeTo(null);
             mainWindow.setVisible(true);
         });
     }

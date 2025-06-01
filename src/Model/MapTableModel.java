@@ -1,4 +1,4 @@
-package newMapApproach;
+package Model;
 
 import javax.swing.table.AbstractTableModel;
 

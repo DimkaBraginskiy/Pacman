@@ -1,18 +1,11 @@
 package View;
 
-import Controller.PacManController;
-import Model.Direction;
-import Model.PacManModel;
-import newMapApproach.MapModel;
-import newMapApproach.NewMapRenderer;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class GamePanel extends JPanel {
-    private NewMapRenderer mapRenderer;
+    private MapRenderer mapRenderer;
     private PacManView pacManView;
 
     public GamePanel(int rows, int cols, int tileSize, int[][] map, PacManView pacManView) {
@@ -25,7 +18,7 @@ public class GamePanel extends JPanel {
         add(pacManView);
 
         // Create map renderer
-        mapRenderer = new NewMapRenderer(map, rows, cols, tileSize);
+        mapRenderer = new MapRenderer(map, rows, cols, tileSize);
         mapRenderer.setBounds(0, 0, cols * tileSize, rows * tileSize);
         add(mapRenderer);
     }

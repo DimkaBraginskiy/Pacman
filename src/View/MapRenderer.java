@@ -1,13 +1,15 @@
-package newMapApproach;
+package View;
+
+import Model.MapTableModel;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class NewMapRenderer extends JPanel {
+public class MapRenderer extends JPanel {
     private JTable table;
     private MapTableModel tableModel;
 
-    public NewMapRenderer(int[][] map, int rows, int cols, int cellSize) {
+    public MapRenderer(int[][] map, int rows, int cols, int cellSize) {
         setLayout(new BorderLayout());
         tableModel = new MapTableModel(map, rows, cols);
         table = new JTable(tableModel);
@@ -36,7 +38,7 @@ public class NewMapRenderer extends JPanel {
 
         // Set preferred size explicitly to avoid layout stretching
         setPreferredSize(new Dimension(cols * cellSize, rows * cellSize));
-        table.setPreferredScrollableViewportSize(new Dimension(cols * cellSize, rows * cellSize));
+        table.setPreferredSize(new Dimension(cols * cellSize, rows * cellSize));
     }
 
     public MapTableModel getModel() {
