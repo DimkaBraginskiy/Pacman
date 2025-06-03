@@ -27,8 +27,15 @@ public class GhostController {
 
 
     public void startMovementThread(){
+
         movementThread = new Thread(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             while(true){
+
                 //Direction nextDir = chooseRandomDirection();
                 Direction nextDir = chooseDirection();
 

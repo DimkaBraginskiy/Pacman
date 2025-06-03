@@ -11,6 +11,7 @@ public class GamePanel extends JPanel {
     private PacManView pacManView;
     private JLabel scoreLabel;
     private JLabel timeLabel;
+    private JLabel lifeLabel;
 
     public GamePanel(int rows, int cols, int tileSize, int[][] map, PacManView pacManView, List<GhostView> ghostViews) {
         setLayout(null);
@@ -43,6 +44,11 @@ public class GamePanel extends JPanel {
         timeLabel.setForeground(Color.WHITE);
         timeLabel.setBounds(150, rows * tileSize + 5, 100, 30 );
         add(timeLabel);
+
+        lifeLabel = new JLabel("Lives: 3");
+        lifeLabel.setForeground(Color.WHITE);
+        lifeLabel.setBounds(10, rows * tileSize + 20, 100, 30);
+        add(lifeLabel);
     }
 
     public void updateScore(int score){
@@ -52,6 +58,8 @@ public class GamePanel extends JPanel {
     public void updateTime(int timeInSeconds){
         SwingUtilities.invokeLater(() -> timeLabel.setText("Time: " + timeInSeconds));
     }
+
+    public void updateLifes(int lives){ SwingUtilities.invokeLater(() -> lifeLabel.setText("Lives: " + lives));}
 
     public void attachKeyListener(KeyAdapter adapter){
         addKeyListener(adapter);

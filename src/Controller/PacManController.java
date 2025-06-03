@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Direction;
+import Model.GhostModel;
 import Model.PacManModel;
 import View.PacManView;
 
@@ -12,11 +13,13 @@ public class PacManController {
         private final PacManModel model;
         private final PacManView view;
         private Thread movementThread;
+        private final GameController gameController;
 
 
-        public PacManController(PacManModel model, PacManView view) {
+        public PacManController(PacManModel model, PacManView view, GameController gameController) {
             this.model = model;
             this.view = view;
+            this.gameController = gameController;
             startMovementThread();
         }
 
@@ -29,6 +32,9 @@ public class PacManController {
             movementThread = new Thread(() -> {
                 while(true){
                     model.move();
+
+                    checkForGhostCollision();
+
                     SwingUtilities.invokeLater(() -> view.updatePosition(model.getPixelX(), model.getPixelY()));
                     try{
                         Thread.sleep(300);
@@ -57,6 +63,15 @@ public class PacManController {
                 }
             }
         };
+    }
+
+    public void checkForGhostCollision(){
+        for(GhostModel ghost : gameController.getGhostModels()){
+            if(model.getX() == ghost.getX() && model.getY() == ghost.getY()){
+                model.decreaseLife();
+                gameController.decreaseLifes();
+            }
+        }
     }
 }
 

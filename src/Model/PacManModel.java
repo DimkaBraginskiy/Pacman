@@ -8,6 +8,7 @@ public class PacManModel {
     private final int tileSize;
     private final MapModel mapModel;
     private final GameController gameController;
+    private int lives = 3;
 
     public PacManModel(int startX, int startY, int tileSize, MapModel mapModel, GameController gameController) {
         this.x = startX;
@@ -69,6 +70,14 @@ public class PacManModel {
         // Then check if tile is a wall (1-14)
         int tile = mapModel.getMap()[y][x];  // Note: typically map[y][x] for row-major order
         return tile < 1 || tile > 14;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void decreaseLife() {
+        this.lives--;
     }
 
     public int getX() { return x; }

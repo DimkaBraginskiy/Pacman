@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.Direction;
 import Model.GhostModel;
 import Model.PacManModel;
 import View.GamePanel;
@@ -9,8 +8,6 @@ import View.MainFrame;
 import View.PacManView;
 import Model.MapModel;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +23,7 @@ public class GameController {
 
     private volatile int score = 0;
     private volatile int timeInSeconds = 0;
+    private volatile int lifes = 3;
 
 
     public GameController(MainFrame mainFrame, int rows, int cols, int tileSize) {
@@ -43,16 +41,16 @@ public class GameController {
 //        ghostController = new GhostController(ghostModel, ghostView, pacManModel);
 
         int[][] ghostSpawns = {
-                {map.length/2-1, map.length/2+1},
-                {map.length/2, map.length/2+1},
-                {map.length/2+1, map.length/2+1},
-                {map.length/2+1, map.length/2+1}
+                {map.length/2, map.length/2-2},
+                {map.length/2, map.length/2},
+                {map.length/2+1, map.length/2},
+                {map.length/2+1, map.length/2}
         };
 
         String[] colors = {
-                "Blue",
-                "Pink",
                 "Red",
+                "Pink",
+                "Blue",
                 "Yellow"
         };
 
@@ -72,7 +70,7 @@ public class GameController {
 
         gamePanel = new GamePanel(rows, cols, tileSize, map, pacManView, ghostViews);
 
-        pacManController = new PacManController(pacManModel, pacManView);
+        pacManController = new PacManController(pacManModel, pacManView, this);
         gamePanel.attachKeyListener(pacManController.getKeyAdapter());
 
 
@@ -96,6 +94,13 @@ public class GameController {
         gamePanel.updateScore(score);
     }
 
+    public void decreaseLifes(){
+        synchronized (this){
+            lifes--;
+        }
+        gamePanel.updateLifes(lifes);
+    }
+
     private void startTimeCounterThread(){
         Thread timeCounterThread = new Thread(() -> {
             while (true){
@@ -113,5 +118,9 @@ public class GameController {
         });
         timeCounterThread.setDaemon(true);
         timeCounterThread.start();
+    }
+
+    public List<GhostModel> getGhostModels() {
+        return ghostModels;
     }
 }

@@ -76,7 +76,7 @@ public class PacManView extends JLabel {
                     currentFrame = (currentFrame + 1) % 3; //?????
                 }
                 try{
-                    Thread.sleep(150);
+                    Thread.sleep(100);
                 }catch (InterruptedException ex){
                     Thread.currentThread().interrupt();
                     return;
