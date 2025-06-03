@@ -45,18 +45,29 @@ public class GameController {
         int[][] ghostSpawns = {
                 {map.length/2-1, map.length/2+1},
                 {map.length/2, map.length/2+1},
+                {map.length/2+1, map.length/2+1},
                 {map.length/2+1, map.length/2+1}
         };
 
+        String[] colors = {
+                "Blue",
+                "Pink",
+                "Red",
+                "Yellow"
+        };
+
+
+        int colorIndex = 0;
         for (int[] spawn : ghostSpawns) {
             GhostModel ghostModel = new GhostModel(spawn[0], spawn[1], tileSize, mapModel, this, 0.65);
-            GhostView ghostView = new GhostView(tileSize);
+            GhostView ghostView = new GhostView(tileSize, colors[colorIndex]);
             ghostView.setLocation(ghostModel.getPixelX(), ghostModel.getPixelY());
             GhostController ghostController = new GhostController(ghostModel, ghostView, pacManModel);
 
             ghostModels.add(ghostModel);
             ghostViews.add(ghostView);
             ghostControllers.add(ghostController);
+            colorIndex++;
         }
 
         gamePanel = new GamePanel(rows, cols, tileSize, map, pacManView, ghostViews);

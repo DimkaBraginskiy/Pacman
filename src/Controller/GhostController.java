@@ -35,11 +35,12 @@ public class GhostController {
                 System.out.println("Ghost direction: " + nextDir);
 
                 model.setDirection(nextDir);
+                view.setCurrentDirection(nextDir);
                 model.move();
 
                 SwingUtilities.invokeLater(() -> view.updatePosition(model.getPixelX(), model.getPixelY()));
                 try{
-                    Thread.sleep(500);
+                    Thread.sleep(400);
                 }catch (InterruptedException ex){
                     Thread.currentThread().interrupt();
                     return;
