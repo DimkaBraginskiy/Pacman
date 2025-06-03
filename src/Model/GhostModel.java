@@ -7,15 +7,16 @@ public class GhostModel {
     private Direction direction = Direction.NONE;
     private final int tileSize;
     private final MapModel mapModel;
-    private final GameController gameController;
 
-    public GhostModel(int startX, int startY, int tileSize, MapModel mapModel, GameController gameController) {
+
+    private final double aggressionFactor;
+
+    public GhostModel(int startX, int startY, int tileSize, MapModel mapModel, GameController gameController, double aggressionFactor) {
         this.x = startX;
         this.y = startY;
         this.tileSize = tileSize;
         this.mapModel = mapModel;
-        this.gameController = gameController;
-
+        this.aggressionFactor = aggressionFactor;
     }
 
     public int[][] getMap() {
@@ -70,6 +71,11 @@ public class GhostModel {
         int tile = mapModel.getMap()[y][x];
         return tile < 1 || tile > 14;
     }
+
+    public double getAggressionFactor() {
+        return aggressionFactor;
+    }
+
 
     public int getX() { return x; }
     public int getY() { return y; }

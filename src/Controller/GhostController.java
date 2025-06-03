@@ -39,7 +39,7 @@ public class GhostController {
 
                 SwingUtilities.invokeLater(() -> view.updatePosition(model.getPixelX(), model.getPixelY()));
                 try{
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 }catch (InterruptedException ex){
                     Thread.currentThread().interrupt();
                     return;
@@ -67,92 +67,18 @@ public class GhostController {
         return Direction.NONE; // all directions blocked
     }
 
-//    private Direction chooseDirection() {
-//        int ghostX = model.getX(), ghostY = model.getY();
-//        int pacManX = pacManModel.getX(), pacManY = pacManModel.getY();
-//
-//        List<Direction> prioritizedDirections = new ArrayList<>();
-//
-//        if(pacManX < ghostX){
-//            prioritizedDirections.add(Direction.LEFT);
-//        }
-//        if(ghostX < pacManX){
-//            prioritizedDirections.add(Direction.RIGHT);
-//        }
-//        if(pacManY < ghostY){
-//            prioritizedDirections.add(Direction.UP);
-//        }
-//        if(ghostY < pacManY){
-//            prioritizedDirections.add(Direction.DOWN);
-//        }
-//
-//
-//        // trying to move forward to pacman first if no obstacles occur:
-//        for(Direction direction : prioritizedDirections){
-//            if(direction == opposite(previousDirection)){
-//                continue;
-//            }
-//
-//            int newX = ghostX;
-//            int newY = ghostY;
-//
-//            switch (direction){
-//                case LEFT -> newX--;
-//                case RIGHT -> newX++;
-//                case DOWN -> newY++;
-//                case UP -> newY--;
-//            }
-//
-//            if(model.canMove(newX, newY)){
-//                previousDirection = direction;
-//                return direction;
-//            }
-//        }
-//
-//        // if can not move from previous loop:
-//        for(Direction direction : Direction.values()){
-//            if(direction == Direction.NONE || direction == opposite(previousDirection)){
-//                continue;
-//            }
-//
-//
-//            int newX = ghostX;
-//            int newY = ghostY;
-//
-//            switch (direction){
-//                case UP -> newY--;
-//                case DOWN -> newY++;
-//                case LEFT -> newX--;
-//                case RIGHT -> newX++;
-//                default -> {
-//                    continue;
-//                }
-//            }
-//
-//            if(model.canMove(newX,newY)){
-//                previousDirection = direction;
-//                return direction;
-//            }
-//        }
-//
-//        Direction reverse = opposite(previousDirection);
-//        int reverseX = ghostX, reverseY = ghostY;
-//        switch (reverse){
-//            case LEFT -> reverseX--;
-//            case RIGHT -> reverseX++;
-//            case DOWN -> reverseY++;
-//            case UP -> reverseY--;
-//        }
-//
-//        if(model.canMove(reverseX, reverseY)){
-//            previousDirection = reverse;
-//            return reverse;
-//        }
-//
-//        return Direction.NONE; // all directions blocked
-//    }
-
     private Direction chooseDirection() {
+        double threshold = random.nextDouble();
+
+        if(model.getAggressionFactor() > threshold){
+            return bfsDirectionChooser();
+        }else{
+            return chooseRandomDirection();
+        }
+    }
+
+
+    private Direction bfsDirectionChooser(){
         int[][] map = model.getMap(); // full map view
         int rows = map.length;
         int cols = map[0].length;

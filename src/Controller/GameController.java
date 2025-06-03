@@ -49,7 +49,7 @@ public class GameController {
         };
 
         for (int[] spawn : ghostSpawns) {
-            GhostModel ghostModel = new GhostModel(spawn[0], spawn[1], tileSize, mapModel, this);
+            GhostModel ghostModel = new GhostModel(spawn[0], spawn[1], tileSize, mapModel, this, 0.65);
             GhostView ghostView = new GhostView(tileSize);
             ghostView.setLocation(ghostModel.getPixelX(), ghostModel.getPixelY());
             GhostController ghostController = new GhostController(ghostModel, ghostView, pacManModel);
