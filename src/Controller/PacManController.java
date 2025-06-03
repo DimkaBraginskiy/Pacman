@@ -47,6 +47,12 @@ public class PacManController {
             movementThread.start();
         }
 
+    public void stopThread() {
+        if (movementThread != null) {
+            movementThread.interrupt();
+        }
+    }
+
     public KeyAdapter getKeyAdapter() {
         return new KeyAdapter() {
             @Override
@@ -70,6 +76,13 @@ public class PacManController {
             if(model.getX() == ghost.getX() && model.getY() == ghost.getY()){
                 model.decreaseLife();
                 gameController.decreaseLifes();
+
+                if(model.getLives() == 0 ){
+                    gameController.handleGameOver();
+                }else{
+                    //start reset....
+                }
+
             }
         }
     }

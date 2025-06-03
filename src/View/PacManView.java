@@ -87,6 +87,12 @@ public class PacManView extends JLabel {
         animThread.start();
     }
 
+    public void stopThread() {
+        if (animThread != null) {
+            animThread.interrupt();
+        }
+    }
+
     public void updatePosition(int x, int y){
         setLocation(x,y);
     }

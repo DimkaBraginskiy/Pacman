@@ -1,17 +1,14 @@
 package Controller;
 
-import Model.GhostModel;
-import Model.PacManModel;
-import View.GamePanel;
-import View.GhostView;
-import View.MainFrame;
-import View.PacManView;
-import Model.MapModel;
+import Model.*;
+import View.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameController {
+    private final MainFrame mainFrame;
     private final GamePanel gamePanel;
     private final PacManModel pacManModel;
     private final PacManView pacManView;
@@ -27,6 +24,7 @@ public class GameController {
 
 
     public GameController(MainFrame mainFrame, int rows, int cols, int tileSize) {
+        this.mainFrame = mainFrame;
         MapModel mapModel = new MapModel(rows, cols);
         int[][] map = mapModel.getMap(); // getting map from mapmodel
 
@@ -118,6 +116,31 @@ public class GameController {
         });
         timeCounterThread.setDaemon(true);
         timeCounterThread.start();
+    }
+
+    public void handleGameOver(){
+        SwingUtilities.invokeLater(()->{
+            stopAllThreads();
+
+            GameOverDialog gameOverDialog = new GameOverDialog(mainFrame, score);
+            gameOverDialog.setVisible(true);
+
+            if(gameOverDialog.isConfirmed()){
+                String name = gameOverDialog.getPlayerName();
+                mainFrame.getHighScoreManager().addScore(new HighScore(name, score));
+            }
+
+            mainFrame.showPanel("MainMenu");
+        });
+
+    }
+
+    public void stopAllThreads(){
+        pacManController.stopThread();
+        pacManView.stopThread();
+        for(GhostController ghostModel : ghostControllers){
+            ghostModel.stopThread();
+        }
     }
 
     public List<GhostModel> getGhostModels() {

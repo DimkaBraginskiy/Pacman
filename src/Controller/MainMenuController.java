@@ -21,12 +21,8 @@ public class MainMenuController {
             }
         });
 
-        mainMenu.scoresButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                mainFrame.showPanel("Scores");
-            }
-        });
+
+        mainMenu.scoresButton.addActionListener(e -> new HighScoresController(mainFrame));
 
         mainMenu.exitButton.addActionListener(new ActionListener() {
             @Override

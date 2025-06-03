@@ -57,6 +57,12 @@ public class GhostController {
         movementThread.start();
     }
 
+    public void stopThread() {
+        if (movementThread != null) {
+            movementThread.interrupt();
+        }
+    }
+
     private Direction chooseRandomDirection() {
         List<Direction> shuffled = new ArrayList<>(List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT));
         Collections.shuffle(shuffled); // random order
