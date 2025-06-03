@@ -46,7 +46,6 @@ public class PacManModel {
         }
 
         if(canMove(newX, newY)){
-
             x = newX;
             y = newY;
 
@@ -55,8 +54,6 @@ public class PacManModel {
                 mapModel.clearDotAt(y,x);
                 gameController.increaseScore();
             }
-
-
 
             System.out.println("PacMan at " + x + " " + y + " " + direction);
         }

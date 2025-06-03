@@ -21,7 +21,7 @@ public class PacManController {
         }
 
         public void setDirection(Direction direction){
-            model.setDirection(direction);
+            model.setDirection(direction); // pasing direction to model
             view.setCurrentDirection(direction);
         }
 
@@ -31,7 +31,7 @@ public class PacManController {
                     model.move();
                     SwingUtilities.invokeLater(() -> view.updatePosition(model.getPixelX(), model.getPixelY()));
                     try{
-                        Thread.sleep(100);
+                        Thread.sleep(300);
                     }catch (InterruptedException ex){
                         Thread.currentThread().interrupt();
                         return;

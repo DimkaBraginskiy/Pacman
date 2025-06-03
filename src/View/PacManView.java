@@ -12,7 +12,6 @@ public class PacManView extends JLabel {
     private volatile Direction currentDirection = Direction.NONE; //volatile - for correct thread in-order operations
     private int currentFrame = 0;
     private Thread animThread;
-    private volatile boolean isMoving = true; // for smooth animation... so the thread would use actual value right away instead of cached one.
 
     public PacManView(int tileSize) {
         this.tileSize = tileSize;

@@ -2,7 +2,9 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.awt.event.KeyAdapter;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
     private MapRenderer mapRenderer;
@@ -10,14 +12,20 @@ public class GamePanel extends JPanel {
     private JLabel scoreLabel;
     private JLabel timeLabel;
 
-    public GamePanel(int rows, int cols, int tileSize, int[][] map, PacManView pacManView) {
+    public GamePanel(int rows, int cols, int tileSize, int[][] map, PacManView pacManView, List<GhostView> ghostViews) {
         setLayout(null);
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(cols * tileSize, rows * tileSize));
         setFocusable(true);
 
         this.pacManView = pacManView;
+        //this.ghostView = ghostView;
         add(pacManView);
+        //add(ghostView);
+
+        for (GhostView ghostView : ghostViews) {
+            add(ghostView);
+        }
 
         // Create map renderer
         mapRenderer = new MapRenderer(map, rows, cols, tileSize);
