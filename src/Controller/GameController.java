@@ -22,6 +22,8 @@ public class GameController {
     private volatile int timeInSeconds = 0;
     private volatile int lifes = 3;
 
+    private volatile boolean isEatingEnabled = false;
+
 
     public GameController(MainFrame mainFrame, int rows, int cols, int tileSize) {
         this.mainFrame = mainFrame;
@@ -82,7 +84,14 @@ public class GameController {
 
     public void increaseScore(){
         synchronized (this){
-            score +=10;
+            score += 10;
+        }
+        gamePanel.updateScore(score);
+    }
+
+    public void increaseScore(int value){
+        synchronized (this){
+            score += value;
         }
         gamePanel.updateScore(score);
     }
@@ -149,6 +158,31 @@ public class GameController {
             ghostModel.resetPosition();
             ghostView.updatePosition(ghostModel.getPixelX(), ghostModel.getPixelY());
         }
+    }
+
+    public void activateEatingMode(){
+        isEatingEnabled = true;
+        for(GhostView ghost : ghostViews){
+            ghost.isScared(true);
+        }
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }finally {
+                isEatingEnabled = false;
+                for(GhostView ghost : ghostViews){
+                    ghost.isScared(false);
+                }
+
+            }
+        }).start();
+    }
+
+    public boolean isEatingEnabled() {
+        return isEatingEnabled;
     }
 
     public List<GhostModel> getGhostModels() {

@@ -13,6 +13,10 @@ public class GhostView extends JLabel {
     private int currentFrame = 0;
     private Thread animThread;
 
+    private boolean isScared = false;
+    private ImageIcon scaredIcon;
+
+
     public GhostView(int tileSize, String ghostColor){
         this.tileSize = tileSize;
 
@@ -21,6 +25,7 @@ public class GhostView extends JLabel {
 
         animationFrames = new EnumMap<>(Direction.class);
         loadAnimationFrames(ghostColor);
+        scaredIcon = iconGenerate("icons/Ghosts/GhostToEat.png", tileSize, tileSize);
 
 
         currentDirection = Direction.RIGHT;
@@ -56,15 +61,21 @@ public class GhostView extends JLabel {
     private void startAnimationThread() {
         animThread = new Thread(() -> {
             while (true) {
-                if (currentDirection != Direction.NONE) {
-                    SwingUtilities.invokeLater(() -> {
+                SwingUtilities.invokeLater(() -> {
+                    if(isScared){
+                        setIcon(scaredIcon);
+
+                    } else if (currentDirection != Direction.NONE) {
                         ImageIcon[] frames = animationFrames.get(currentDirection);
                         if (frames != null && frames.length > 0) {
                             setIcon(frames[currentFrame % frames.length]);
+
                         }
-                    });
-                    currentFrame++;
-                }
+                    }
+                });
+
+                currentFrame++;
+
                 try {
                     Thread.sleep(150);
                 } catch (InterruptedException ex) {
@@ -83,5 +94,9 @@ public class GhostView extends JLabel {
 
     public void setCurrentDirection(Direction direction){
         this.currentDirection = direction;
+    }
+
+    public void isScared(Boolean isScared){
+        this.isScared =  isScared;
     }
 }

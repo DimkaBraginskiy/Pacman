@@ -55,9 +55,15 @@ public class PacManModel implements СreatureModel{
             y = newY;
 
 
-            if(mapModel.getMap()[y][x] == 0){
+            if(mapModel.getMap()[y][x] == 0){ // small or big dot checking
                 mapModel.clearDotAt(y,x);
                 gameController.increaseScore();
+            }
+
+            if(mapModel.getMap()[y][x] == 15){ // small or big dot checking
+                mapModel.clearDotAt(y,x);
+                gameController.increaseScore();
+                gameController.activateEatingMode();
             }
 
             System.out.println("PacMan at " + x + " " + y + " " + direction);
