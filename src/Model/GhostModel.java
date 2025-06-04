@@ -4,6 +4,7 @@ import Controller.GameController;
 
 public class GhostModel {
     private int x, y;
+    private final int startX, startY;
     private Direction direction = Direction.NONE;
     private final int tileSize;
     private final MapModel mapModel;
@@ -14,6 +15,9 @@ public class GhostModel {
     public GhostModel(int startX, int startY, int tileSize, MapModel mapModel, GameController gameController, double aggressionFactor) {
         this.x = startX;
         this.y = startY;
+        this.startX = startX;
+        this.startY = startY;
+
         this.tileSize = tileSize;
         this.mapModel = mapModel;
         this.aggressionFactor = aggressionFactor;
@@ -74,6 +78,12 @@ public class GhostModel {
 
     public double getAggressionFactor() {
         return aggressionFactor;
+    }
+
+    public void resetPosition(){
+        x = startX;
+        y = startY;
+        this.direction = Direction.NONE;
     }
 
 

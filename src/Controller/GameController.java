@@ -28,15 +28,10 @@ public class GameController {
         MapModel mapModel = new MapModel(rows, cols);
         int[][] map = mapModel.getMap(); // getting map from mapmodel
 
-        pacManModel = new PacManModel(1, 1, tileSize, mapModel, this);
+        pacManModel = new PacManModel(map.length/2, map.length/2+2, tileSize, mapModel, this);
         pacManView = new PacManView(tileSize);
         pacManView.setLocation(pacManModel.getPixelX(), pacManModel.getPixelY());
 
-
-//        ghostModel = new GhostModel(map.length-2, 1,tileSize,mapModel,this);
-//        ghostView = new GhostView(tileSize);
-//        ghostView.setLocation(ghostModel.getPixelX(), ghostModel.getPixelY());
-//        ghostController = new GhostController(ghostModel, ghostView, pacManModel);
 
         int[][] ghostSpawns = {
                 {map.length/2, map.length/2-2},
@@ -140,6 +135,19 @@ public class GameController {
         pacManView.stopThread();
         for(GhostController ghostModel : ghostControllers){
             ghostModel.stopThread();
+        }
+    }
+
+    public void respawnAllCharacters(){
+        pacManModel.resetPosition();
+        pacManView.updatePosition(pacManModel.getPixelX(), pacManModel.getPixelY());
+
+        for(int i = 0; i < ghostModels.size(); i++){
+            GhostModel ghostModel = ghostModels.get(i);
+            GhostView ghostView = ghostViews.get(i);
+
+            ghostModel.resetPosition();
+            ghostView.updatePosition(ghostModel.getPixelX(), ghostModel.getPixelY());
         }
     }
 

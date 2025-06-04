@@ -74,8 +74,10 @@ public class PacManController {
     public void checkForGhostCollision(){
         for(GhostModel ghost : gameController.getGhostModels()){
             if(model.getX() == ghost.getX() && model.getY() == ghost.getY()){
+
                 model.decreaseLife();
                 gameController.decreaseLifes();
+                gameController.respawnAllCharacters();
 
                 if(model.getLives() == 0 ){
                     gameController.handleGameOver();

@@ -4,6 +4,7 @@ import Controller.GameController;
 
 public class PacManModel {
     private int x, y;
+    private final int startX, startY;
     private Direction direction = Direction.NONE;
     private final int tileSize;
     private final MapModel mapModel;
@@ -13,6 +14,9 @@ public class PacManModel {
     public PacManModel(int startX, int startY, int tileSize, MapModel mapModel, GameController gameController) {
         this.x = startX;
         this.y = startY;
+        this.startX = startX;
+        this.startY = startY;
+
         this.tileSize = tileSize;
         this.mapModel = mapModel;
         this.gameController = gameController;
@@ -78,6 +82,12 @@ public class PacManModel {
 
     public void decreaseLife() {
         this.lives--;
+    }
+
+    public void resetPosition(){
+        x = startX;
+        y = startY;
+        this.direction = Direction.NONE;
     }
 
     public int getX() { return x; }
