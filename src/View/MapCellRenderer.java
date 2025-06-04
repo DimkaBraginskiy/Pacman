@@ -40,6 +40,7 @@
                 case 13 -> "icons/Walls/TriConnectorUp.png";
                 case 14 -> "icons/Walls/TriConnectorDown.png";
                 case 0 -> "icons/Dots/SmallDot.png";
+                case 15 -> "icons/Dots/BigDot.png";
                 default -> null;
             };
 

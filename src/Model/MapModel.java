@@ -1,5 +1,9 @@
 package Model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class MapModel {
     private int rows;
     private int cols;
@@ -112,6 +116,31 @@ public class MapModel {
 
             }
         }
+
+        placeBigDots(4);
+    }
+
+    public void placeBigDots(int count){
+        List<int[]> validPositions = new ArrayList<>();
+
+        for(int row = 1; row < rows -1; row++){
+            for(int col = 1; col < cols -1; col++){
+                if(map[row][col] == 0 || map[row][col] == -1){
+                    validPositions.add(new int[]{row, col});
+                }
+            }
+        }
+
+        if(validPositions.size() < count){
+            count = validPositions.size();
+        }
+
+        Collections.shuffle(validPositions);
+
+        for(int i = 0; i < count; i++){
+            int[] pos = validPositions.get(i);
+            map[pos[0]][pos[1]] = 15;
+        }
     }
 
 
@@ -145,6 +174,8 @@ public class MapModel {
                 throw new IllegalArgumentException("Invalid direction: " + direction);
         }
     }
+
+
 
     public void clearDotAt(int row, int col){
         if(map[row][col] == 0){
