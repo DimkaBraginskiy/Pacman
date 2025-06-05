@@ -14,6 +14,9 @@ public class MapModel {
     int minCol = 1;
     int maxCol = cols - 2;
 
+    private int pacManX = -1;
+    private int pacManY = -1;
+
 
     public MapModel(int rows, int cols){
         this.rows = rows;
@@ -200,8 +203,16 @@ public class MapModel {
             {2,1,1,2,1,2,1,2,1,1,1,1,2,1,1,1,1,2,1,2,2,2,1,2,1},
             {2,1,2,2,1,2,1,2,2,2,2,1,2,1,2,2,2,2,1,2,1,2,1,2,1},
             {2,1,2,1,1,2,1,1,1,1,1,1,2,1,1,1,1,1,1,2,1,2,1,2,1}
-};
+    };
 
+    public void setPacManPosition(int x, int y){
+           this.pacManX = x;
+           this.pacManY = y;
+    }
+
+    public boolean isPacManAt(int row, int col){
+        return row == pacManY && col == pacManX;
+    }
 
 
     public void placeBigDots(int count){

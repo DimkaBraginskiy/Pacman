@@ -20,6 +20,7 @@ public class PacManModel implements СreatureModel{
         this.tileSize = tileSize;
         this.mapModel = mapModel;
         this.gameController = gameController;
+        mapModel.setPacManPosition(x, y);
     }
 
     @Override
@@ -54,6 +55,7 @@ public class PacManModel implements СreatureModel{
             x = newX;
             y = newY;
 
+            mapModel.setPacManPosition(x, y);
 
             if(mapModel.getMap()[y][x] == 0){ // small or big dot checking
                 mapModel.clearDotAt(y,x);
@@ -70,16 +72,13 @@ public class PacManModel implements СreatureModel{
         }
     }
     @Override
-    public boolean canMove(int x, int y){
-
-        // First check boundaries
+    public boolean canMove(int x, int y) {
         if (x < 0 || x >= mapModel.getMap()[0].length || y < 0 || y >= mapModel.getMap().length) {
             return false;
         }
 
-        // Then check if tile is a wall (1-14)
-        int tile = mapModel.getMap()[y][x];  // Note: typically map[y][x] for row-major order
-        return tile < 1 || tile > 14;
+        int tile = mapModel.getMap()[y][x];
+        return tile != 1; // only block walls
     }
 
     public int getLives() {
@@ -94,6 +93,7 @@ public class PacManModel implements СreatureModel{
         x = startX;
         y = startY;
         this.direction = Direction.NONE;
+        mapModel.setPacManPosition(x, y);
     }
     @Override
     public int getX() { return x; }

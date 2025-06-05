@@ -33,5 +33,7 @@ public class MapTableModel extends AbstractTableModel {
         fireTableCellUpdated(rowIndex, columnIndex); // repainting table cell
     }
 
-
+    public MapModel getMapModel() {
+        return mapModel;
+    }
 }

@@ -36,7 +36,7 @@ public class MapRenderer extends JPanel {
             table.getColumnModel().getColumn(i).setMinWidth(cellSize);
             table.getColumnModel().getColumn(i).setMaxWidth(cellSize);
 
-            table.getColumnModel().getColumn(i).setCellRenderer(new MapCellRenderer(cellSize));
+            table.getColumnModel().getColumn(i).setCellRenderer(new MapCellRenderer(cellSize, mapModel));
         }
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -75,7 +75,7 @@ public class MapRenderer extends JPanel {
             column.setPreferredWidth(newSize);
             column.setMinWidth(newSize);
             column.setMaxWidth(newSize);
-            column.setCellRenderer(new MapCellRenderer(newSize));
+            column.setCellRenderer(new MapCellRenderer(newSize, mapModel));
         }
 
         revalidate();
@@ -85,5 +85,4 @@ public class MapRenderer extends JPanel {
     public MapTableModel getModel() {
         return tableModel;
     }
-
 }

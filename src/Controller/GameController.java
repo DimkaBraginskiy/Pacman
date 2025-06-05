@@ -11,6 +11,7 @@ public class GameController {
     private final MainFrame mainFrame;
     private final GamePanel gamePanel;
     private final PacManModel pacManModel;
+    private final PacManController pacManController;
 
 
     private final List<GhostModel> ghostModels = new ArrayList<>();
@@ -36,6 +37,9 @@ public class GameController {
                 mapModel,
                 this
         );
+
+        pacManController = new PacManController(pacManModel, this);
+        gamePanel.addKeyListener(pacManController.getKeyAdapter());
 
 
 
@@ -65,15 +69,6 @@ public class GameController {
 
             colorIndex++;
         }
-
-
-
-
-
-
-
-
-
 
         mainFrame.addPanel("GamePanel", gamePanel);
         mainFrame.showPanel("GamePanel");
@@ -191,4 +186,10 @@ public class GameController {
     public List<GhostModel> getGhostModels() {
         return ghostModels;
     }
+
+    public MapRenderer getMapRenderer(){
+        return gamePanel.getMapRenderer();
+    }
+
+
 }

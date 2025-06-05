@@ -28,13 +28,29 @@ public class PacManController {
         }
 
         public void startMovementThread(){
+
+            System.out.println("Starting movement thread...");
+
             movementThread = new Thread(() -> {
-                while(true){
-                    model.move();
 
-                    checkForGhostCollision();
+                System.out.println("Thread running...");
 
+                while(!Thread.currentThread().isInterrupted()){
+                    try {
+                        System.out.println("Before move()");
 
+                        model.move();
+
+                        SwingUtilities.invokeLater(() ->{
+                            gameController.getMapRenderer().repaint();
+                        });
+
+                        //checkForGhostCollision();
+                        Thread.sleep(180);
+
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             });
             movementThread.start();
@@ -50,6 +66,7 @@ public class PacManController {
         return new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
+                System.out.println("KEY PRESSED: " + e.getKeyCode());  // <--- Add this!
                 Direction dir = switch (e.getKeyCode()) {
                     case KeyEvent.VK_UP -> Direction.UP;
                     case KeyEvent.VK_DOWN -> Direction.DOWN;

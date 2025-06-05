@@ -1,14 +1,18 @@
     package View;
 
+    import Model.MapModel;
+
     import javax.swing.*;
     import javax.swing.table.DefaultTableCellRenderer;
     import java.awt.*;
 
     public class MapCellRenderer extends DefaultTableCellRenderer {
         private final int cellSize;
+        private final MapModel mapModel;
 
-        public MapCellRenderer(int cellSize) {
+        public MapCellRenderer(int cellSize, MapModel mapModel) {
             this.cellSize = cellSize;
+            this.mapModel = mapModel;
         }
 
         @Override
@@ -21,8 +25,16 @@
 
             JLabel label = new JLabel();
             label.setOpaque(true);
+            label.setBackground(Color.BLACK);
 
             int cellValue = (int) value;
+
+            if(mapModel.isPacManAt(row, column)){
+                String path = "icons/PacManRight/PacMan1Right.png";
+                ImageIcon icon = iconGenerate(path,cellSize,cellSize);
+                label.setIcon(icon);
+                return label;
+            }
 
             String path = switch (cellValue) {
                 case 1 -> "icons/Walls/Wall.png";
@@ -32,6 +44,8 @@
                 default -> null;
             };
 
+
+
             if(path != null) {
                 ImageIcon icon = new ImageIcon(path);
 
@@ -39,5 +53,14 @@
                 label.setIcon(new ImageIcon(scaled));
             }
             return label;
+        }
+
+        private ImageIcon iconGenerate(String path, int sizeX, int sizeY){
+            ImageIcon icon = new ImageIcon(path);
+            Image originImage = icon.getImage();
+            Image scaledImage = originImage.getScaledInstance(sizeX, sizeY, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon();
+            scaledIcon.setImage(scaledImage);
+            return scaledIcon;
         }
     }
