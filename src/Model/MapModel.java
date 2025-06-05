@@ -255,38 +255,6 @@ public class MapModel {
         return cols;
     }
 
-    private void addTriWall(int centerRow, int centerCol, String direction) {
-        switch (direction.toLowerCase()) {
-            case "left":
-                map[centerRow][centerCol] = 11;
-                map[centerRow][centerCol + 1] = 7;     // leftClosed
-                map[centerRow - 1][centerCol] = 9;     // topWall
-                map[centerRow + 1][centerCol] = 10;    // bottomWall
-                break;
-            case "right":
-                map[centerRow][centerCol] = 12;
-                map[centerRow][centerCol - 1] = 8;     // rightClosed
-                map[centerRow - 1][centerCol] = 9;
-                map[centerRow + 1][centerCol] = 10;
-                break;
-            case "up":
-                map[centerRow][centerCol] = 13;
-                map[centerRow + 1][centerCol] = 10;    // bottomWall
-                map[centerRow][centerCol - 1] = 7;     // leftWall
-                map[centerRow][centerCol + 1] = 8;     // rightWall
-                break;
-            case "down":
-                map[centerRow][centerCol] = 14;
-                map[centerRow - 1][centerCol] = 9;     // topWall
-                map[centerRow][centerCol - 1] = 7;     // leftWall
-                map[centerRow][centerCol + 1] = 8;     // rightWall
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid direction: " + direction);
-        }
-    }
-
-
 
     public void clearDotAt(int row, int col){
         map[row][col] = -1;

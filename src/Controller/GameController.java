@@ -30,12 +30,15 @@ public class GameController {
         gamePanel = new GamePanel(rows, cols, tileSize, mapModel);
 
 
+
+
         pacManModel = new PacManModel(
                 mapModel.getMap().length/2,
                 mapModel.getMap().length/2+2,
                 tileSize,
                 mapModel,
-                this
+                this,
+                getMapRenderer().getTableModel()
         );
 
         pacManController = new PacManController(pacManModel, this);

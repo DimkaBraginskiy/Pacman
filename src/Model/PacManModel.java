@@ -9,9 +9,14 @@ public class PacManModel implements СreatureModel{
     private final int tileSize;
     private final MapModel mapModel;
     private final GameController gameController;
+    private final MapTableModel mapTableModel;
     private int lives = 3;
 
-    public PacManModel(int startX, int startY, int tileSize, MapModel mapModel, GameController gameController) {
+    public PacManModel(int startX, int startY,
+                       int tileSize,
+                       MapModel mapModel,
+                       GameController gameController,
+                       MapTableModel mapTableModel) {
         this.x = startX;
         this.y = startY;
         this.startX = startX;
@@ -20,6 +25,8 @@ public class PacManModel implements СreatureModel{
         this.tileSize = tileSize;
         this.mapModel = mapModel;
         this.gameController = gameController;
+        this.mapTableModel = mapTableModel;
+
         mapModel.setPacManPosition(x, y);
     }
 
@@ -52,10 +59,16 @@ public class PacManModel implements СreatureModel{
         }
 
         if(canMove(newX, newY)){
+            int oldX = x;
+            int oldY = y;
+
+            // Updating position
             x = newX;
             y = newY;
 
             mapModel.setPacManPosition(x, y);
+            mapTableModel.fireTableCellUpdated(oldY,oldX);
+            mapTableModel.fireTableCellUpdated(y,x);
 
             if(mapModel.getMap()[y][x] == 0){ // small or big dot checking
                 mapModel.clearDotAt(y,x);

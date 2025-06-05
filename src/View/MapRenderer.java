@@ -82,7 +82,7 @@ public class MapRenderer extends JPanel {
         repaint();
     }
 
-    public MapTableModel getModel() {
+    public MapTableModel getTableModel() {
         return tableModel;
     }
 }
