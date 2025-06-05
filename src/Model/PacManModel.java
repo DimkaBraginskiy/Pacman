@@ -116,4 +116,9 @@ public class PacManModel implements СreatureModel{
     public int getPixelX() { return x * tileSize; }
     @Override
     public int getPixelY() { return y * tileSize; }
+    @Override
+    public int getTileSize() {
+        return tileSize;
+    }
+
 }

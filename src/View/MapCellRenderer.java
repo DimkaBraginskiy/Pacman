@@ -1,5 +1,7 @@
     package View;
 
+    import Controller.ImageProvider;
+    import Controller.PacManController;
     import Model.MapModel;
 
     import javax.swing.*;
@@ -9,10 +11,12 @@
     public class MapCellRenderer extends DefaultTableCellRenderer {
         private final int cellSize;
         private final MapModel mapModel;
+        private final ImageProvider pacManImageProvider;
 
-        public MapCellRenderer(int cellSize, MapModel mapModel) {
+        public MapCellRenderer(int cellSize, MapModel mapModel, ImageProvider pacManImageProvider) {
             this.cellSize = cellSize;
             this.mapModel = mapModel;
+            this.pacManImageProvider = pacManImageProvider;
         }
 
         @Override
@@ -30,10 +34,11 @@
             int cellValue = (int) value;
 
             if(mapModel.isPacManAt(row, column)){
-                String path = "icons/PacManRight/PacMan1Right.png";
-                ImageIcon icon = iconGenerate(path,cellSize,cellSize);
-                label.setIcon(icon);
-                return label;
+                ImageIcon icon = pacManImageProvider.getCurrentImageIcon();
+                if (icon != null) {
+                    label.setIcon(icon);
+                    return label;
+                }
             }
 
             String path = switch (cellValue) {

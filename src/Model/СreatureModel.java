@@ -11,4 +11,5 @@ public interface СreatureModel {
     int getY();
     int getPixelX();
     int getPixelY();
+    int getTileSize();
 }

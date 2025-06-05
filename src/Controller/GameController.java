@@ -27,10 +27,8 @@ public class GameController {
     public GameController(MainFrame mainFrame, int rows, int cols, int tileSize) {
         this.mainFrame = mainFrame;
         MapModel mapModel = new MapModel(rows, cols);
-        gamePanel = new GamePanel(rows, cols, tileSize, mapModel);
 
-
-
+        MapTableModel tempMapTableModel = new MapTableModel(mapModel);
 
         pacManModel = new PacManModel(
                 mapModel.getMap().length/2,
@@ -38,10 +36,16 @@ public class GameController {
                 tileSize,
                 mapModel,
                 this,
-                getMapRenderer().getTableModel()
+                tempMapTableModel
         );
 
+
         pacManController = new PacManController(pacManModel, this);
+
+        gamePanel = new GamePanel(rows, cols, tileSize, mapModel, pacManController);
+
+
+
         gamePanel.addKeyListener(pacManController.getKeyAdapter());
 
 
@@ -64,7 +68,6 @@ public class GameController {
         int colorIndex = 0;
         for (int[] spawn : ghostSpawns) {
             GhostModel ghostModel = new GhostModel(spawn[0], spawn[1], tileSize, mapModel, this, 0.65);
-
 
 
             ghostModels.add(ghostModel);

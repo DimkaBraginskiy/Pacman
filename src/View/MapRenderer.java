@@ -1,5 +1,7 @@
 package View;
 
+import Controller.ImageProvider;
+import Controller.PacManController;
 import Model.MapModel;
 import Model.MapTableModel;
 
@@ -13,13 +15,17 @@ public class MapRenderer extends JPanel {
     private JTable table;
     private MapTableModel tableModel;
     private final MapModel mapModel;
+    private final ImageProvider pacManImageProvider;
 
-    public MapRenderer(MapModel mapModel, int rows, int cols, int cellSize) {
+    public MapRenderer(MapModel mapModel, int rows, int cols, int cellSize, ImageProvider pacManimageProvider) {
         setLayout(new BorderLayout());
+
+        this.pacManImageProvider = pacManimageProvider;
 
         this.mapModel = mapModel;
         this.tableModel = new MapTableModel(mapModel);
         this.table = new JTable(tableModel);
+
 
         // Set sizes
         //table.setRowHeight(cellSize);
@@ -36,7 +42,8 @@ public class MapRenderer extends JPanel {
             table.getColumnModel().getColumn(i).setMinWidth(cellSize);
             table.getColumnModel().getColumn(i).setMaxWidth(cellSize);
 
-            table.getColumnModel().getColumn(i).setCellRenderer(new MapCellRenderer(cellSize, mapModel));
+            table.getColumnModel().getColumn(i).setCellRenderer(
+                    new MapCellRenderer(cellSize, mapModel, pacManimageProvider));
         }
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -75,7 +82,7 @@ public class MapRenderer extends JPanel {
             column.setPreferredWidth(newSize);
             column.setMinWidth(newSize);
             column.setMaxWidth(newSize);
-            column.setCellRenderer(new MapCellRenderer(newSize, mapModel));
+            column.setCellRenderer(new MapCellRenderer(newSize, mapModel, pacManImageProvider));
         }
 
         revalidate();
