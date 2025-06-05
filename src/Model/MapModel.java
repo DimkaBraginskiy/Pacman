@@ -22,6 +22,7 @@ public class MapModel {
         this.rows = rows;
         this.cols = cols;
         generateFromPredefinedMazeAndCrop(rows, cols);
+        placeBigDots(4);
     }
 
     public void generateFromPredefinedMazeAndCrop(int targetRows, int targetCols) {
@@ -227,7 +228,7 @@ public class MapModel {
 
         for(int row = 1; row < rows -1; row++){
             for(int col = 1; col < cols -1; col++){
-                if(map[row][col] == 0 || map[row][col] == -1){
+                if(map[row][col] == 2){
                     validPositions.add(new int[]{row, col});
                 }
             }
@@ -241,7 +242,7 @@ public class MapModel {
 
         for(int i = 0; i < count; i++){
             int[] pos = validPositions.get(i);
-            map[pos[0]][pos[1]] = 15;
+            map[pos[0]][pos[1]] = 3;
         }
     }
 

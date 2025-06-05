@@ -69,16 +69,10 @@ public class GameController {
         }
 
 
-
         gamePanel = new GamePanel(rows, cols, tileSize, mapModel, pacManController, ghostModels);
 
 
-
         gamePanel.addKeyListener(pacManController.getKeyAdapter());
-
-
-
-
 
 
 
@@ -179,23 +173,17 @@ public class GameController {
 
     public void activateEatingMode(){
         isEatingEnabled = true;
-//        for(GhostView ghost : ghostViews){
-//            ghost.isScared(true);
-//        }
-//
-//        new Thread(() -> {
-//            try {
-//                Thread.sleep(10000);
-//            } catch (InterruptedException e) {
-//                Thread.currentThread().interrupt();
-//            }finally {
-//                isEatingEnabled = false;
-//                for(GhostView ghost : ghostViews){
-//                    ghost.isScared(false);
-//                }
-//
-//            }
-//        }).start();
+
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(10000); // 10 seconds
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } finally {
+                isEatingEnabled = false;
+            }
+        }).start();
     }
 
     public boolean isEatingEnabled() {
