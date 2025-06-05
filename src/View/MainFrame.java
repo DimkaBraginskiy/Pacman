@@ -27,6 +27,9 @@ public class MainFrame extends JFrame {
         cardPanel = new JPanel(cardLayout);
         add(cardPanel);
 
+        setResizable(true);
+        pack();
+
         this.highScoreManager = new HighScoreManager();
     }
 

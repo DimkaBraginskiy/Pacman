@@ -31,22 +31,17 @@ public class GamePanel extends JPanel {
         //Score label:
         scoreLabel = new JLabel("Score: 0");
         scoreLabel.setForeground(Color.WHITE);
-        hudPanel.add(scoreLabel);
-
         //Time label:
         timeLabel = new JLabel("Time: 0");
         timeLabel.setForeground(Color.WHITE);
-        hudPanel.add(timeLabel);
-
+        //Life label:
         lifeLabel = new JLabel("Lives: 3");
         lifeLabel.setForeground(Color.WHITE);
         hudPanel.add(lifeLabel);
 
+        hudPanel.add(scoreLabel);
+        hudPanel.add(timeLabel);
         add(hudPanel, BorderLayout.SOUTH);
-
-        int height = rows * tileSize;
-        int width = cols * tileSize;
-        setPreferredSize(new Dimension(width, height));
     }
 
     public void updateScore(int score){

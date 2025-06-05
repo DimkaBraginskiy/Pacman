@@ -44,46 +44,48 @@ public class MapModel {
             }
         }
 
-        // Step 2: Crop center
-        int startRow = (fullMaze.length - targetRows) / 2;
-        int startCol = (fullMaze[0].length - targetCols) / 2;
+        // Step 2: Crop smaller center (leave room for walls and dot ring)
+        int croppedRows = targetRows - 4;
+        int croppedCols = targetCols - 4;
+        int startRow = (fullMaze.length - croppedRows) / 2;
+        int startCol = (fullMaze[0].length - croppedCols) / 2;
 
-        int[][] cropped = new int[targetRows][targetCols];
-        for (int i = 0; i < targetRows; i++) {
-            for (int j = 0; j < targetCols; j++) {
+        int[][] cropped = new int[croppedRows][croppedCols];
+        for (int i = 0; i < croppedRows; i++) {
+            for (int j = 0; j < croppedCols; j++) {
                 cropped[i][j] = fullMaze[startRow + i][startCol + j];
             }
         }
 
-        // Step 3: Create framed map (walls + dots + cropped center)
-        int framedRows = targetRows + 4;
-        int framedCols = targetCols + 4;
-        int[][] framedMap = new int[framedRows][framedCols];
+        // Step 3: Create final framed map
+        int[][] framedMap = new int[targetRows][targetCols];
 
         // Step 3.1: Fill all with walls
-        for (int i = 0; i < framedRows; i++) {
-            for (int j = 0; j < framedCols; j++) {
+        for (int i = 0; i < targetRows; i++) {
+            for (int j = 0; j < targetCols; j++) {
                 framedMap[i][j] = 1; // wall
             }
         }
 
         // Step 3.2: Fill inner border with dots
-        for (int i = 1; i < framedRows - 1; i++) {
-            for (int j = 1; j < framedCols - 1; j++) {
-                framedMap[i][j] = 2; // small dot
+        for (int i = 1; i < targetRows - 1; i++) {
+            for (int j = 1; j < targetCols - 1; j++) {
+                if (i == 1 || i == targetRows - 2 || j == 1 || j == targetCols - 2) {
+                    framedMap[i][j] = 2; // dot
+                }
             }
         }
 
-        // Step 3.3: Place cropped map inside center of frame
-        for (int i = 0; i < targetRows; i++) {
-            for (int j = 0; j < targetCols; j++) {
+        // Step 3.3: Place cropped map into center (+2 offset)
+        for (int i = 0; i < croppedRows; i++) {
+            for (int j = 0; j < croppedCols; j++) {
                 framedMap[i + 2][j + 2] = cropped[i][j];
             }
         }
 
         this.map = framedMap;
-        this.rows = framedRows;
-        this.cols = framedCols;
+        this.rows = targetRows;
+        this.cols = targetCols;
     }
 
 

@@ -34,10 +34,13 @@ public class MapRenderer extends JPanel {
             table.getColumnModel().getColumn(i).setCellRenderer(new MapCellRenderer(cellSize));
         }
 
-
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(null);
+        scrollPane.getViewport().setBackground(Color.BLACK);
+        add(scrollPane, BorderLayout.CENTER);
 
         add(table, BorderLayout.CENTER);
-        setPreferredSize(new Dimension(cols * cellSize, rows * cellSize));
+        //setPreferredSize(new Dimension(cols * cellSize, rows * cellSize));
     }
 
     public MapTableModel getModel() {
