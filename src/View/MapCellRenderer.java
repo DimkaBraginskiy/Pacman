@@ -23,6 +23,7 @@
             label.setOpaque(true);
 
             int cellValue = (int) value;
+
 //            String path = switch (cellValue) {
 //                case -1 -> "icons/Walls/EmptyTile.png";
 //                case 1 -> "icons/Walls/WallHorizontal.png";
@@ -54,6 +55,7 @@
 
             if(path != null) {
                 ImageIcon icon = new ImageIcon(path);
+
                 Image scaled =icon.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
                 label.setIcon(new ImageIcon(scaled));
             }

@@ -86,6 +86,110 @@ public class MapModel {
         this.map = framedMap;
         this.rows = targetRows;
         this.cols = targetCols;
+
+        placeGhostBox();
+    }
+
+    private void placeGhostBox(){
+        int innerCols = cols - 2;
+
+        int r = rows/2;
+        int c = rows/2;
+
+        //INNER GHOST SPAWN WALLS:
+        if((innerCols % 2) != 0){
+            // Spawn area
+            map[r][c] = -1;
+            map[r][c - 1] = -1;
+            map[r][c + 1] = -1;
+
+            // Walls
+            map[r + 1][c] = 1;
+            map[r + 1][c + 1] = 1;
+            map[r + 1][c - 1] = 1;
+
+            map[r][c + 2] = 1;
+            map[r][c - 2] = 1;
+
+            map[r - 1][c - 1] = 1;
+            map[r - 1][c + 1] = 1;
+
+            map[r - 1][c - 2] = 1;
+            map[r - 1][c + 2] = 1;
+            map[r + 1][c - 2] = 1;
+            map[r + 1][c + 2] = 1;
+
+            // Dots around the box (ring)
+            map[r - 2][c - 2] = 2;
+            map[r - 2][c - 1] = 2;
+            map[r - 2][c]     = 2;
+            map[r - 2][c + 1] = 2;
+            map[r - 2][c + 2] = 2;
+
+            map[r - 1][c - 3] = 2;
+            map[r - 1][c + 3] = 2;
+
+            map[r][c - 3] = 2;
+            map[r][c + 3] = 2;
+
+            map[r + 1][c - 3] = 2;
+            map[r + 1][c + 3] = 2;
+
+            map[r + 2][c - 2] = 2;
+            map[r + 2][c - 1] = 2;
+            map[r + 2][c]     = 2;
+            map[r + 2][c + 1] = 2;
+            map[r + 2][c + 2] = 2;
+
+
+        }else if((innerCols%2)==0){
+            // Spawn area
+            map[r][c] = -1;
+            map[r][c - 1] = -1;
+            map[r][c - 2] = -1;
+            map[r][c + 1] = -1;
+
+            // Walls
+            map[r + 1][c] = 1;
+            map[r + 1][c + 1] = 1;
+            map[r + 1][c - 1] = 1;
+            map[r + 1][c - 2] = 1;
+
+            map[r][c + 2] = 1;
+            map[r][c - 3] = 1;
+
+            map[r - 1][c - 2] = 1;
+            map[r - 1][c + 1] = 1;
+
+            map[r - 1][c - 3] = 1;
+            map[r - 1][c + 2] = 1;
+            map[r + 1][c - 3] = 1;
+            map[r + 1][c + 2] = 1;
+
+            // Dots around the box (ring)
+            map[r - 2][c - 3] = 2;
+            map[r - 2][c - 2] = 2;
+            map[r - 2][c - 1] = 2;
+            map[r - 2][c]     = 2;
+            map[r - 2][c + 1] = 2;
+            map[r - 2][c + 2] = 2;
+
+            map[r - 1][c - 4] = 2;
+            map[r - 1][c + 3] = 2;
+
+            map[r][c - 4] = 2;
+            map[r][c + 3] = 2;
+
+            map[r + 1][c - 4] = 2;
+            map[r + 1][c + 3] = 2;
+
+            map[r + 2][c - 3] = 2;
+            map[r + 2][c - 2] = 2;
+            map[r + 2][c - 1] = 2;
+            map[r + 2][c]     = 2;
+            map[r + 2][c + 1] = 2;
+            map[r + 2][c + 2] = 2;
+        }
     }
 
 
