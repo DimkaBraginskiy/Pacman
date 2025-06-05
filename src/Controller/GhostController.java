@@ -15,12 +15,14 @@ public class GhostController {
     private Thread movementThread;
     private final Random random = new Random();
     private Direction previousDirection = Direction.NONE;
+    private final GameController gameController;
 
     private final PacManModel pacManModel;
 
-    public GhostController(GhostModel model, PacManModel pacManModel){
+    public GhostController(GhostModel model, PacManModel pacManModel, GameController gameController){
         this.model = model;
         this.pacManModel = pacManModel;
+        this.gameController = gameController;
         startMovementThread();
     }
 
@@ -40,11 +42,25 @@ public class GhostController {
 
                 System.out.println("Ghost direction: " + nextDir);
 
-                model.setDirection(nextDir);
+                int oldX = model.getX();
+                int oldY = model.getY();
 
+                model.setDirection(nextDir);
                 model.move();
 
+                int newX = model.getX();
+                int newY = model.getY();
 
+                SwingUtilities.invokeLater(()->{
+                    gameController.getMapRenderer().getTableModel().fireTableCellUpdated(oldY, oldX);
+                    gameController.getMapRenderer().getTableModel().fireTableCellUpdated(newY, newX);
+                });
+
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         movementThread.start();

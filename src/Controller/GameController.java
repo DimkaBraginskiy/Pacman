@@ -42,14 +42,6 @@ public class GameController {
 
         pacManController = new PacManController(pacManModel, this);
 
-        gamePanel = new GamePanel(rows, cols, tileSize, mapModel, pacManController);
-
-
-
-        gamePanel.addKeyListener(pacManController.getKeyAdapter());
-
-
-
         int[][] ghostSpawns = {
                 {mapModel.getMap().length/2, mapModel.getMap().length/2-2},
                 {mapModel.getMap().length/2, mapModel.getMap().length/2},
@@ -67,7 +59,7 @@ public class GameController {
 
         int colorIndex = 0;
         for (int[] spawn : ghostSpawns) {
-            GhostModel ghostModel = new GhostModel(spawn[0], spawn[1], tileSize, mapModel, this, 0.65);
+            GhostModel ghostModel = new GhostModel(spawn[0], spawn[1], tileSize, mapModel, this, 0.20);
 
 
             ghostModels.add(ghostModel);
@@ -75,6 +67,27 @@ public class GameController {
 
             colorIndex++;
         }
+
+
+
+        gamePanel = new GamePanel(rows, cols, tileSize, mapModel, pacManController, ghostModels);
+
+
+
+        gamePanel.addKeyListener(pacManController.getKeyAdapter());
+
+
+
+
+
+
+
+        for(GhostModel ghostModel : ghostModels){
+            GhostController ghostController = new GhostController(ghostModel, pacManModel, this);
+            ghostControllers.add(ghostController);
+        }
+
+
 
         mainFrame.addPanel("GamePanel", gamePanel);
         mainFrame.showPanel("GamePanel");

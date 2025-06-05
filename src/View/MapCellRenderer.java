@@ -2,21 +2,26 @@
 
     import Controller.ImageProvider;
     import Controller.PacManController;
+    import Model.GhostModel;
     import Model.MapModel;
 
     import javax.swing.*;
     import javax.swing.table.DefaultTableCellRenderer;
     import java.awt.*;
+    import java.util.List;
+
 
     public class MapCellRenderer extends DefaultTableCellRenderer {
         private final int cellSize;
         private final MapModel mapModel;
         private final ImageProvider pacManImageProvider;
+        private final List<GhostModel> ghostModels;
 
-        public MapCellRenderer(int cellSize, MapModel mapModel, ImageProvider pacManImageProvider) {
+        public MapCellRenderer(int cellSize, MapModel mapModel, ImageProvider pacManImageProvider, List<GhostModel> ghostModels) {
             this.cellSize = cellSize;
             this.mapModel = mapModel;
             this.pacManImageProvider = pacManImageProvider;
+            this.ghostModels = ghostModels;
         }
 
         @Override
@@ -37,6 +42,15 @@
                 ImageIcon icon = pacManImageProvider.getCurrentImageIcon();
                 if (icon != null) {
                     label.setIcon(icon);
+                    return label;
+                }
+            }
+
+            for (GhostModel ghost : ghostModels) {
+                if (ghost.getY() == row && ghost.getX() == column) {
+                    ImageIcon ghostIcon = new ImageIcon("icons/Ghosts/PinkGhostRight.png");
+                    Image scaled = ghostIcon.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
+                    label.setIcon(new ImageIcon(scaled));
                     return label;
                 }
             }

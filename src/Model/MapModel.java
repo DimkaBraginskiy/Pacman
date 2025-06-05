@@ -98,10 +98,7 @@ public class MapModel {
 
         //INNER GHOST SPAWN WALLS:
         if((innerCols % 2) != 0){
-            // Spawn area
-            map[r][c] = -1;
-            map[r][c - 1] = -1;
-            map[r][c + 1] = -1;
+
 
             // Walls
             map[r + 1][c] = 1;
@@ -141,13 +138,15 @@ public class MapModel {
             map[r + 2][c + 1] = 2;
             map[r + 2][c + 2] = 2;
 
-
-        }else if((innerCols%2)==0){
             // Spawn area
             map[r][c] = -1;
             map[r][c - 1] = -1;
-            map[r][c - 2] = -1;
+            map[r - 1][c] = -1;
             map[r][c + 1] = -1;
+
+
+        }else if((innerCols%2)==0){
+
 
             // Walls
             map[r + 1][c] = 1;
@@ -189,6 +188,14 @@ public class MapModel {
             map[r + 2][c]     = 2;
             map[r + 2][c + 1] = 2;
             map[r + 2][c + 2] = 2;
+
+            // Spawn area
+            map[r][c] = -1;
+            map[r][c - 1] = -1;
+            map[r - 1][c - 1] = -1;
+            map[r][c - 2] = -1;
+            map[r][c - 2] = -1;
+            map[r][c + 1] = -1;
         }
     }
 

@@ -57,9 +57,13 @@ public class GhostModel implements СreatureModel{
         }
 
         if(canMove(newX, newY)){
+            int oldX = x;
+            int oldY = y;
 
             x = newX;
             y = newY;
+
+
 
 
             System.out.println("Ghost at " + x + " " + y + " " + direction);
@@ -75,7 +79,7 @@ public class GhostModel implements СreatureModel{
 
         // Then check if tile is a wall (1-14)
         int tile = mapModel.getMap()[y][x];
-        return tile < 1 || tile > 14;
+        return tile != 1;
     }
 
     public double getAggressionFactor() {

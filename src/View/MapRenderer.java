@@ -2,14 +2,17 @@ package View;
 
 import Controller.ImageProvider;
 import Controller.PacManController;
+import Model.GhostModel;
 import Model.MapModel;
 import Model.MapTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableColumn;
+
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.List;
 
 public class MapRenderer extends JPanel {
     private JTable table;
@@ -17,7 +20,7 @@ public class MapRenderer extends JPanel {
     private final MapModel mapModel;
     private final ImageProvider pacManImageProvider;
 
-    public MapRenderer(MapModel mapModel, int rows, int cols, int cellSize, ImageProvider pacManimageProvider) {
+    public MapRenderer(MapModel mapModel, int rows, int cols, int cellSize, ImageProvider pacManimageProvider, List<GhostModel> ghostModels) {
         setLayout(new BorderLayout());
 
         this.pacManImageProvider = pacManimageProvider;
@@ -43,7 +46,7 @@ public class MapRenderer extends JPanel {
             table.getColumnModel().getColumn(i).setMaxWidth(cellSize);
 
             table.getColumnModel().getColumn(i).setCellRenderer(
-                    new MapCellRenderer(cellSize, mapModel, pacManimageProvider));
+                    new MapCellRenderer(cellSize, mapModel, pacManimageProvider, ghostModels));
         }
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -51,13 +54,13 @@ public class MapRenderer extends JPanel {
         scrollPane.getViewport().setBackground(Color.BLACK);
         add(scrollPane, BorderLayout.CENTER);
 
-        resizeTableCells(getWidth(), getHeight());
+        resizeTableCells(getWidth(), getHeight(), ghostModels);
 
 
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                resizeTableCells(getWidth(),getHeight());
+                resizeTableCells(getWidth(),getHeight(), ghostModels);
             }
         });
 
@@ -66,7 +69,7 @@ public class MapRenderer extends JPanel {
         //setPreferredSize(new Dimension(cols * cellSize, rows * cellSize));
     }
 
-    private void resizeTableCells(int width, int height){
+    private void resizeTableCells(int width, int height, List<GhostModel> ghostModels){
         int rows = mapModel.getRows();
         int cols = mapModel.getCols();
 
@@ -82,7 +85,7 @@ public class MapRenderer extends JPanel {
             column.setPreferredWidth(newSize);
             column.setMinWidth(newSize);
             column.setMaxWidth(newSize);
-            column.setCellRenderer(new MapCellRenderer(newSize, mapModel, pacManImageProvider));
+            column.setCellRenderer(new MapCellRenderer(newSize, mapModel, pacManImageProvider, ghostModels));
         }
 
         revalidate();

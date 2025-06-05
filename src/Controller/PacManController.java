@@ -62,7 +62,7 @@ public class PacManController implements  ImageProvider{
                             gameController.getMapRenderer().repaint();
                         });
 
-                        //checkForGhostCollision();
+                        checkForGhostCollision();
                         Thread.sleep(180);
 
                     } catch (InterruptedException e) {
