@@ -11,11 +11,9 @@ public class GameController {
     private final MainFrame mainFrame;
     private final GamePanel gamePanel;
     private final PacManModel pacManModel;
-    private final PacManView pacManView;
-    private final PacManController pacManController;
+
 
     private final List<GhostModel> ghostModels = new ArrayList<>();
-    private final List<GhostView> ghostViews = new ArrayList<>();
     private final List<GhostController> ghostControllers = new ArrayList<>();
 
     private volatile int score = 0;
@@ -28,18 +26,24 @@ public class GameController {
     public GameController(MainFrame mainFrame, int rows, int cols, int tileSize) {
         this.mainFrame = mainFrame;
         MapModel mapModel = new MapModel(rows, cols);
-        int[][] map = mapModel.getMap(); // getting map from mapmodel
+        gamePanel = new GamePanel(rows, cols, tileSize, mapModel);
 
-        pacManModel = new PacManModel(map.length/2, map.length/2+2, tileSize, mapModel, this);
-        pacManView = new PacManView(tileSize);
-        pacManView.setLocation(pacManModel.getPixelX(), pacManModel.getPixelY());
+
+        pacManModel = new PacManModel(
+                mapModel.getMap().length/2,
+                mapModel.getMap().length/2+2,
+                tileSize,
+                mapModel,
+                this
+        );
+
 
 
         int[][] ghostSpawns = {
-                {map.length/2, map.length/2-2},
-                {map.length/2, map.length/2},
-                {map.length/2+1, map.length/2},
-                {map.length/2+1, map.length/2}
+                {mapModel.getMap().length/2, mapModel.getMap().length/2-2},
+                {mapModel.getMap().length/2, mapModel.getMap().length/2},
+                {mapModel.getMap().length/2+1, mapModel.getMap().length/2},
+                {mapModel.getMap().length/2+1, mapModel.getMap().length/2}
         };
 
         String[] colors = {
@@ -53,20 +57,19 @@ public class GameController {
         int colorIndex = 0;
         for (int[] spawn : ghostSpawns) {
             GhostModel ghostModel = new GhostModel(spawn[0], spawn[1], tileSize, mapModel, this, 0.65);
-            GhostView ghostView = new GhostView(tileSize, colors[colorIndex]);
-            ghostView.setLocation(ghostModel.getPixelX(), ghostModel.getPixelY());
-            GhostController ghostController = new GhostController(ghostModel, ghostView, pacManModel);
+
+
 
             ghostModels.add(ghostModel);
-            ghostViews.add(ghostView);
-            ghostControllers.add(ghostController);
+
+
             colorIndex++;
         }
 
-        gamePanel = new GamePanel(rows, cols, tileSize, map, pacManView, ghostViews);
 
-        pacManController = new PacManController(pacManModel, pacManView, this);
-        gamePanel.attachKeyListener(pacManController.getKeyAdapter());
+
+
+
 
 
 
@@ -140,8 +143,8 @@ public class GameController {
     }
 
     public void stopAllThreads(){
-        pacManController.stopThread();
-        pacManView.stopThread();
+
+
         for(GhostController ghostModel : ghostControllers){
             ghostModel.stopThread();
         }
@@ -149,36 +152,36 @@ public class GameController {
 
     public void respawnAllCharacters(){
         pacManModel.resetPosition();
-        pacManView.updatePosition(pacManModel.getPixelX(), pacManModel.getPixelY());
+
 
         for(int i = 0; i < ghostModels.size(); i++){
             GhostModel ghostModel = ghostModels.get(i);
-            GhostView ghostView = ghostViews.get(i);
+
 
             ghostModel.resetPosition();
-            ghostView.updatePosition(ghostModel.getPixelX(), ghostModel.getPixelY());
+
         }
     }
 
     public void activateEatingMode(){
         isEatingEnabled = true;
-        for(GhostView ghost : ghostViews){
-            ghost.isScared(true);
-        }
-
-        new Thread(() -> {
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }finally {
-                isEatingEnabled = false;
-                for(GhostView ghost : ghostViews){
-                    ghost.isScared(false);
-                }
-
-            }
-        }).start();
+//        for(GhostView ghost : ghostViews){
+//            ghost.isScared(true);
+//        }
+//
+//        new Thread(() -> {
+//            try {
+//                Thread.sleep(10000);
+//            } catch (InterruptedException e) {
+//                Thread.currentThread().interrupt();
+//            }finally {
+//                isEatingEnabled = false;
+//                for(GhostView ghost : ghostViews){
+//                    ghost.isScared(false);
+//                }
+//
+//            }
+//        }).start();
     }
 
     public boolean isEatingEnabled() {

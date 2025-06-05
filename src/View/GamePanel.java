@@ -1,5 +1,7 @@
 package View;
 
+import Model.MapModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -8,47 +10,43 @@ import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
     private MapRenderer mapRenderer;
-    private PacManView pacManView;
     private JLabel scoreLabel;
     private JLabel timeLabel;
     private JLabel lifeLabel;
 
-    public GamePanel(int rows, int cols, int tileSize, int[][] map, PacManView pacManView, List<GhostView> ghostViews) {
-        setLayout(null);
+    public GamePanel(int rows, int cols, int tileSize, MapModel mapModel) {
+        setLayout(new BorderLayout());
         setBackground(Color.BLACK);
-        setPreferredSize(new Dimension(cols * tileSize, rows * tileSize));
         setFocusable(true);
 
-        this.pacManView = pacManView;
-        //this.ghostView = ghostView;
-        add(pacManView);
-        //add(ghostView);
-
-        for (GhostView ghostView : ghostViews) {
-            add(ghostView);
-        }
 
         // Create map renderer
-        mapRenderer = new MapRenderer(map, rows, cols, tileSize);
-        mapRenderer.setBounds(0, 0, cols * tileSize, rows * tileSize);
+        mapRenderer = new MapRenderer(mapModel, rows, cols, tileSize);
         add(mapRenderer);
+
+
+        JPanel hudPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 30, 5));
+        hudPanel.setBackground(Color.BLACK);
 
         //Score label:
         scoreLabel = new JLabel("Score: 0");
         scoreLabel.setForeground(Color.WHITE);
-        scoreLabel.setBounds(10, rows * tileSize + 5, 100, 30);
-        add(scoreLabel);
+        hudPanel.add(scoreLabel);
 
         //Time label:
         timeLabel = new JLabel("Time: 0");
         timeLabel.setForeground(Color.WHITE);
-        timeLabel.setBounds(150, rows * tileSize + 5, 100, 30 );
-        add(timeLabel);
+        hudPanel.add(timeLabel);
 
         lifeLabel = new JLabel("Lives: 3");
         lifeLabel.setForeground(Color.WHITE);
-        lifeLabel.setBounds(10, rows * tileSize + 20, 100, 30);
-        add(lifeLabel);
+        hudPanel.add(lifeLabel);
+
+        add(hudPanel, BorderLayout.SOUTH);
+
+        int height = rows * tileSize;
+        int width = cols * tileSize;
+        setPreferredSize(new Dimension(width, height));
     }
 
     public void updateScore(int score){
@@ -63,5 +61,9 @@ public class GamePanel extends JPanel {
 
     public void attachKeyListener(KeyAdapter adapter){
         addKeyListener(adapter);
+    }
+
+    public MapRenderer getMapRenderer() {
+        return mapRenderer;
     }
 }

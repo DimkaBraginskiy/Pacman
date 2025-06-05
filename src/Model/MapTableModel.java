@@ -1,41 +1,37 @@
 package Model;
 
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
+import java.util.EventListener;
 
 public class MapTableModel extends AbstractTableModel {
-    private final int[][] map;
-    private final int rows;
-    private final int cols;
+    private final MapModel mapModel;
 
-    public MapTableModel(int[][] map, int rows, int cols){
-        this.map = map;
-        this.rows = rows;
-        this.cols = cols;
+    public MapTableModel(MapModel mapModel) {
+        this.mapModel = mapModel;
     }
 
 
     @Override
-    public int getRowCount() {
-        return rows;
+    public int getRowCount(){
+        return mapModel.getRows();
     }
 
     @Override
-    public int getColumnCount() {
-        return cols;
+    public int getColumnCount(){
+        return mapModel.getCols();
     }
 
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        return map[rowIndex][columnIndex];
+    public Object getValueAt(int rowIndex, int columnIndex){
+        return mapModel.getCell(rowIndex, columnIndex);
     }
 
-    public int getCellValue(int rowIndex, int columnIndex) {
-        return map[rowIndex][columnIndex];
+    public void setValueAt(int rowIndex, int columnIndex, int value){
+        mapModel.setCell(rowIndex, columnIndex, value);
+        fireTableCellUpdated(rowIndex, columnIndex); // repainting table cell
     }
 
-    public void setValueAt(int value, int row, int col) {
-        map[row][col] = value;
-        fireTableCellUpdated(row, col);
-    }
 
 }

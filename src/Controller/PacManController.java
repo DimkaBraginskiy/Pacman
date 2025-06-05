@@ -3,7 +3,6 @@ package Controller;
 import Model.Direction;
 import Model.GhostModel;
 import Model.PacManModel;
-import View.PacManView;
 
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
@@ -11,21 +10,21 @@ import java.awt.event.KeyEvent;
 
 public class PacManController {
         private final PacManModel model;
-        private final PacManView view;
+
         private Thread movementThread;
         private final GameController gameController;
 
 
-        public PacManController(PacManModel model, PacManView view, GameController gameController) {
+        public PacManController(PacManModel model, GameController gameController) {
             this.model = model;
-            this.view = view;
+
             this.gameController = gameController;
             startMovementThread();
         }
 
         public void setDirection(Direction direction){
             model.setDirection(direction); // pasing direction to model
-            view.setCurrentDirection(direction);
+
         }
 
         public void startMovementThread(){
@@ -35,13 +34,7 @@ public class PacManController {
 
                     checkForGhostCollision();
 
-                    SwingUtilities.invokeLater(() -> view.updatePosition(model.getPixelX(), model.getPixelY()));
-                    try{
-                        Thread.sleep(300);
-                    }catch (InterruptedException ex){
-                        Thread.currentThread().interrupt();
-                        return;
-                    }
+
                 }
             });
             movementThread.start();

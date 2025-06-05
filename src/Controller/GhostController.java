@@ -4,23 +4,22 @@ import Model.Direction;
 import Model.GhostModel;
 import Model.MapModel;
 import Model.PacManModel;
-import View.GhostView;
+
 
 import javax.swing.*;
 import java.util.*;
 
 public class GhostController {
     private final GhostModel model;
-    private final GhostView view;
+
     private Thread movementThread;
     private final Random random = new Random();
     private Direction previousDirection = Direction.NONE;
 
     private final PacManModel pacManModel;
 
-    public GhostController(GhostModel model, GhostView view, PacManModel pacManModel){
+    public GhostController(GhostModel model, PacManModel pacManModel){
         this.model = model;
-        this.view = view;
         this.pacManModel = pacManModel;
         startMovementThread();
     }
@@ -42,16 +41,10 @@ public class GhostController {
                 System.out.println("Ghost direction: " + nextDir);
 
                 model.setDirection(nextDir);
-                view.setCurrentDirection(nextDir);
+
                 model.move();
 
-                SwingUtilities.invokeLater(() -> view.updatePosition(model.getPixelX(), model.getPixelY()));
-                try{
-                    Thread.sleep(400);
-                }catch (InterruptedException ex){
-                    Thread.currentThread().interrupt();
-                    return;
-                }
+
             }
         });
         movementThread.start();

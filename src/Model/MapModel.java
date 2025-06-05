@@ -143,6 +143,21 @@ public class MapModel {
         }
     }
 
+    public int getCell(int row, int col){
+        return map[row][col];
+    }
+
+    public void setCell(int row, int col, int value){
+        map[row][col] = value;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
+    }
 
     private void addTriWall(int centerRow, int centerCol, String direction) {
         switch (direction.toLowerCase()) {
