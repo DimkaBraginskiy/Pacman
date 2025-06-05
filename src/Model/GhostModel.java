@@ -8,11 +8,18 @@ public class GhostModel implements СreatureModel{
     private Direction direction = Direction.NONE;
     private final int tileSize;
     private final MapModel mapModel;
+    private final String color;
 
 
     private final double aggressionFactor;
 
-    public GhostModel(int startX, int startY, int tileSize, MapModel mapModel, GameController gameController, double aggressionFactor) {
+    public GhostModel(int startX,
+                      int startY,
+                      int tileSize,
+                      MapModel mapModel,
+                      GameController gameController,
+                      double aggressionFactor,
+                      String color) {
         this.x = startX;
         this.y = startY;
         this.startX = startX;
@@ -21,6 +28,7 @@ public class GhostModel implements СreatureModel{
         this.tileSize = tileSize;
         this.mapModel = mapModel;
         this.aggressionFactor = aggressionFactor;
+        this.color = color;
     }
 
     public int[][] getMap() {
@@ -104,4 +112,9 @@ public class GhostModel implements СreatureModel{
     public int getTileSize(){
         return tileSize;
     }
+
+    public String getColor() {
+        return color;
+    }
+
 }

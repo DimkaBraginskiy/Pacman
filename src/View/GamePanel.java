@@ -1,5 +1,6 @@
 package View;
 
+import Controller.GhostStateProvider;
 import Controller.PacManController;
 import Model.GhostModel;
 import Model.MapModel;
@@ -16,14 +17,15 @@ public class GamePanel extends JPanel {
     private JLabel timeLabel;
     private JLabel lifeLabel;
 
-    public GamePanel(int rows, int cols, int tileSize, MapModel mapModel, PacManController pacManController, List<GhostModel> ghostModels) {
+    public GamePanel(int rows, int cols, int tileSize, MapModel mapModel, PacManController pacManController, List<GhostModel> ghostModels,
+                     GhostStateProvider ghostStateProvider) {
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
         setFocusable(true);
 
 
         // Create map renderer
-        mapRenderer = new MapRenderer(mapModel, rows, cols, tileSize, pacManController, ghostModels);
+        mapRenderer = new MapRenderer(mapModel, rows, cols, tileSize, pacManController, ghostModels, ghostStateProvider);
         mapRenderer.setPreferredSize(new Dimension(cols * tileSize, rows * tileSize));
         add(mapRenderer, BorderLayout.CENTER);
 

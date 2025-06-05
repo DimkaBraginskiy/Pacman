@@ -1,5 +1,6 @@
 package View;
 
+import Controller.GhostStateProvider;
 import Controller.ImageProvider;
 import Controller.PacManController;
 import Model.GhostModel;
@@ -20,7 +21,8 @@ public class MapRenderer extends JPanel {
     private final MapModel mapModel;
     private final ImageProvider pacManImageProvider;
 
-    public MapRenderer(MapModel mapModel, int rows, int cols, int cellSize, ImageProvider pacManimageProvider, List<GhostModel> ghostModels) {
+    public MapRenderer(MapModel mapModel, int rows, int cols, int cellSize, ImageProvider pacManimageProvider, List<GhostModel> ghostModels,
+                       GhostStateProvider ghostStateProvider) {
         setLayout(new BorderLayout());
 
         this.pacManImageProvider = pacManimageProvider;
@@ -46,7 +48,7 @@ public class MapRenderer extends JPanel {
             table.getColumnModel().getColumn(i).setMaxWidth(cellSize);
 
             table.getColumnModel().getColumn(i).setCellRenderer(
-                    new MapCellRenderer(cellSize, mapModel, pacManimageProvider, ghostModels));
+                    new MapCellRenderer(cellSize, mapModel, pacManimageProvider, ghostModels, ghostStateProvider));
         }
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -54,13 +56,13 @@ public class MapRenderer extends JPanel {
         scrollPane.getViewport().setBackground(Color.BLACK);
         add(scrollPane, BorderLayout.CENTER);
 
-        resizeTableCells(getWidth(), getHeight(), ghostModels);
+        resizeTableCells(getWidth(), getHeight(), ghostModels, ghostStateProvider);
 
 
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                resizeTableCells(getWidth(),getHeight(), ghostModels);
+                resizeTableCells(getWidth(),getHeight(), ghostModels, ghostStateProvider);
             }
         });
 
@@ -69,7 +71,7 @@ public class MapRenderer extends JPanel {
         //setPreferredSize(new Dimension(cols * cellSize, rows * cellSize));
     }
 
-    private void resizeTableCells(int width, int height, List<GhostModel> ghostModels){
+    private void resizeTableCells(int width, int height, List<GhostModel> ghostModels, GhostStateProvider ghostStateProvider){
         int rows = mapModel.getRows();
         int cols = mapModel.getCols();
 
@@ -85,7 +87,7 @@ public class MapRenderer extends JPanel {
             column.setPreferredWidth(newSize);
             column.setMinWidth(newSize);
             column.setMaxWidth(newSize);
-            column.setCellRenderer(new MapCellRenderer(newSize, mapModel, pacManImageProvider, ghostModels));
+            column.setCellRenderer(new MapCellRenderer(newSize, mapModel, pacManImageProvider, ghostModels, ghostStateProvider));
         }
 
         revalidate();

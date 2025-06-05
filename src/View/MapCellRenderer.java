@@ -1,5 +1,7 @@
     package View;
 
+    import Controller.GameController;
+    import Controller.GhostStateProvider;
     import Controller.ImageProvider;
     import Controller.PacManController;
     import Model.GhostModel;
@@ -16,12 +18,15 @@
         private final MapModel mapModel;
         private final ImageProvider pacManImageProvider;
         private final List<GhostModel> ghostModels;
+        private final GhostStateProvider ghostStateProvider;
 
-        public MapCellRenderer(int cellSize, MapModel mapModel, ImageProvider pacManImageProvider, List<GhostModel> ghostModels) {
+        public MapCellRenderer(int cellSize, MapModel mapModel, ImageProvider pacManImageProvider, List<GhostModel> ghostModels,
+                               GhostStateProvider ghostStateProvider) {
             this.cellSize = cellSize;
             this.mapModel = mapModel;
             this.pacManImageProvider = pacManImageProvider;
             this.ghostModels = ghostModels;
+            this.ghostStateProvider = ghostStateProvider;
         }
 
         @Override
@@ -46,9 +51,16 @@
                 }
             }
 
+
             for (GhostModel ghost : ghostModels) {
                 if (ghost.getY() == row && ghost.getX() == column) {
-                    ImageIcon ghostIcon = new ImageIcon("icons/Ghosts/PinkGhostRight.png");
+                    ImageIcon ghostIcon;
+                    if (ghostStateProvider.isGhostsScared()) {
+                        ghostIcon = new ImageIcon("icons/Ghosts/GhostToEat.png");
+                    } else {
+                        ghostIcon = new ImageIcon("icons/Ghosts/" + ghost.getColor() + "GhostRight.png");
+                    }
+
                     Image scaled = ghostIcon.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
                     label.setIcon(new ImageIcon(scaled));
                     return label;

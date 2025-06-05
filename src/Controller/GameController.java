@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameController {
+public class GameController implements GhostStateProvider{
     private final MainFrame mainFrame;
     private final GamePanel gamePanel;
     private final PacManModel pacManModel;
@@ -49,27 +49,26 @@ public class GameController {
                 {mapModel.getMap().length/2+1, mapModel.getMap().length/2}
         };
 
-        String[] colors = {
-                "Red",
-                "Pink",
-                "Blue",
-                "Yellow"
-        };
 
+        String[] colors = {"Red", "Pink", "Blue", "Yellow"};
+        for (int i = 0; i < ghostSpawns.length; i++) {
+            int[] spawn = ghostSpawns[i];
+            String color = colors[i];
 
-        int colorIndex = 0;
-        for (int[] spawn : ghostSpawns) {
-            GhostModel ghostModel = new GhostModel(spawn[0], spawn[1], tileSize, mapModel, this, 0.20);
+            GhostModel ghostModel = new GhostModel(spawn[0],
+                    spawn[1],
+                    tileSize,
+                    mapModel,
+                    this,
+                    0.20,
+                    color);
 
 
             ghostModels.add(ghostModel);
-
-
-            colorIndex++;
         }
 
 
-        gamePanel = new GamePanel(rows, cols, tileSize, mapModel, pacManController, ghostModels);
+        gamePanel = new GamePanel(rows, cols, tileSize, mapModel, pacManController, ghostModels, this);
 
 
         gamePanel.addKeyListener(pacManController.getKeyAdapter());
@@ -184,6 +183,11 @@ public class GameController {
                 isEatingEnabled = false;
             }
         }).start();
+    }
+
+    @Override
+    public boolean isGhostsScared() {
+        return isEatingEnabled;
     }
 
     public boolean isEatingEnabled() {
