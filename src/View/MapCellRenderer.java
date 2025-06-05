@@ -24,27 +24,6 @@
 
             int cellValue = (int) value;
 
-//            String path = switch (cellValue) {
-//                case -1 -> "icons/Walls/EmptyTile.png";
-//                case 1 -> "icons/Walls/WallHorizontal.png";
-//                case 2 -> "icons/Walls/WallVertical.png";
-//                case 3 -> "icons/Walls/LeftUpClose.png";
-//                case 4 -> "icons/Walls/RightUpClose.png";
-//                case 5 -> "icons/Walls/LeftDownClose.png";
-//                case 6 -> "icons/Walls/RightDownClose.png";
-//                case 7 -> "icons/Walls/HorizontalClosedRight.png";
-//                case 8 -> "icons/Walls/HorizontalClosedLeft.png";
-//                case 9 -> "icons/Walls/VerticalClosedUp.png";
-//                case 10 -> "icons/Walls/VerticalClosedDown.png";
-//                case 11 -> "icons/Walls/TriConnectorLeft.png";
-//                case 12 -> "icons/Walls/TriConnectorRight.png";
-//                case 13 -> "icons/Walls/TriConnectorUp.png";
-//                case 14 -> "icons/Walls/TriConnectorDown.png";
-//                case 0 -> "icons/Dots/SmallDot.png";
-//                case 15 -> "icons/Dots/BigDot.png";
-//                default -> null;
-//            };
-
             String path = switch (cellValue) {
                 case 1 -> "icons/Walls/Wall.png";
                 case 2 -> "icons/Dots/SmallDot.png";

@@ -22,7 +22,8 @@ public class GamePanel extends JPanel {
 
         // Create map renderer
         mapRenderer = new MapRenderer(mapModel, rows, cols, tileSize);
-        add(mapRenderer);
+        mapRenderer.setPreferredSize(new Dimension(cols * tileSize, rows * tileSize));
+        add(mapRenderer, BorderLayout.CENTER);
 
 
         JPanel hudPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 30, 5));
