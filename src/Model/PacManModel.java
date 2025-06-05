@@ -67,19 +67,24 @@ public class PacManModel implements СreatureModel{
             y = newY;
 
             mapModel.setPacManPosition(x, y);
-            mapTableModel.fireTableCellUpdated(oldY,oldX);
-            mapTableModel.fireTableCellUpdated(y,x);
 
-            if(mapModel.getMap()[y][x] == 0){ // small or big dot checking
+            int cellValue = mapModel.getMap()[y][x];
+
+            if(cellValue == 2){ // small or big dot checking
                 mapModel.clearDotAt(y,x);
+                mapTableModel.setValueAt(y,x,-1);
                 gameController.increaseScore();
-            }
+            }else if(cellValue == 3){ // small or big dot checking
 
-            if(mapModel.getMap()[y][x] == 15){ // small or big dot checking
                 mapModel.clearDotAt(y,x);
+                mapTableModel.setValueAt(y,x, -1);
                 gameController.increaseScore();
                 gameController.activateEatingMode();
             }
+
+            mapTableModel.fireTableCellUpdated(oldY,oldX);
+            mapTableModel.fireTableCellUpdated(y,x);
+
 
             System.out.println("PacMan at " + x + " " + y + " " + direction);
         }
