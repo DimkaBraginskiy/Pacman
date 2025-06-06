@@ -1,8 +1,6 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class MapModel {
     private int rows;
@@ -23,6 +21,7 @@ public class MapModel {
         this.cols = cols;
         generateFromPredefinedMazeAndCrop(rows, cols);
         placeBigDots(4);
+        makeAllDotsReachableFromSpawn();
     }
 
     public void generateFromPredefinedMazeAndCrop(int targetRows, int targetCols) {
@@ -245,6 +244,66 @@ public class MapModel {
             map[pos[0]][pos[1]] = 3;
         }
     }
+
+    // Ensuring that all the dots are reachable and in case of the dots which are surrounded by walls we eliminate this possibility of happening.
+    // With this method a map becomes actually playable. It used to happen with odd map size so now it does not:
+    public void makeAllDotsReachableFromSpawn() {
+        boolean[][] visited = new boolean[rows][cols];
+        Queue<int[]> queue = new LinkedList<>();
+
+        // Use Pac-Man's position if set, otherwise fallback to (1,1)
+        int pacManStartY = (pacManY >= 0) ? pacManY : 1;
+        int pacManStartX = (pacManX >= 0) ? pacManX : 1;
+
+        visited[pacManStartY][pacManStartX] = true;
+        queue.add(new int[]{pacManStartY, pacManStartX});
+
+        // up, down, left, right.......
+        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        // block of code which manages all possible walkable tiles.
+        // using bfs algorithm to (Breadth First Search) to find all reachable tiles.
+        // we can find walls whcih are unreachable and eliminate it then.......
+        while (!queue.isEmpty()) {
+            int[] current = queue.poll();
+            int y = current[0];
+            int x = current[1];
+
+            for (int[] dir : directions) {
+                int newY = y + dir[0];
+                int newX = x + dir[1];
+
+                if (inBounds(newY, newX) && !visited[newY][newX] && map[newY][newX] != 1) {
+                    visited[newY][newX] = true;
+                    queue.add(new int[]{newY, newX});
+                }
+            }
+        }
+
+        // Check each dot — if it's unreachable, break a wall next to it based from previous observations from previous code block.
+        for (int y = 1; y < rows - 1; y++) {
+            for (int x = 1; x < cols - 1; x++) {
+                if ((map[y][x] == 2 || map[y][x] == 3) && !visited[y][x]) {
+                    for (int[] dir : directions) {
+                        int ny = y + dir[0];
+                        int nx = x + dir[1];
+
+                        if (inBounds(ny, nx) && map[ny][nx] == 1) {
+                            map[ny][nx] = -1; // break wall to create access
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    private boolean inBounds(int y, int x) {
+        return y >= 0 && y < rows && x >= 0 && x < cols;
+    }
+
+
 
     public boolean areAllDotsEaten() {
         for (int[] row : map) {

@@ -25,7 +25,7 @@ public class MainFrame extends JFrame {
 
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
-        add(cardPanel);
+        add(cardPanel, BorderLayout.CENTER);
 
         setResizable(true);
         pack();

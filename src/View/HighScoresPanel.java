@@ -32,6 +32,7 @@ public class HighScoresPanel extends JPanel {
 
         JScrollPane scrollPane = new JScrollPane(scoreList);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setPreferredSize(new Dimension(0,0));
         add(scrollPane, BorderLayout.CENTER);
 
         backButton = new JButton("Back");
@@ -74,9 +75,12 @@ public class HighScoresPanel extends JPanel {
 
     // Custom renderer
     private static class HighScoreRenderer extends JLabel implements ListCellRenderer<HighScore> {
+
         public HighScoreRenderer() {
             setOpaque(true);
-            setFont(new Font("Monospaced", Font.PLAIN, 18));
+
+            setFont(new Font("Arial", Font.PLAIN, 18));
+
         }
 
         @Override
