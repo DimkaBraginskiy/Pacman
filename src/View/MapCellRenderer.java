@@ -6,6 +6,8 @@
     import Controller.PacManController;
     import Model.GhostModel;
     import Model.MapModel;
+    import Model.Upgrade;
+    import Model.UpgradeType;
 
     import javax.swing.*;
     import javax.swing.table.DefaultTableCellRenderer;
@@ -20,13 +22,17 @@
         private final List<GhostModel> ghostModels;
         private final GhostStateProvider ghostStateProvider;
 
+        private final List<Upgrade> upgrades;
+
         public MapCellRenderer(int cellSize, MapModel mapModel, ImageProvider pacManImageProvider, List<GhostModel> ghostModels,
-                               GhostStateProvider ghostStateProvider) {
+                               GhostStateProvider ghostStateProvider,
+                               List<Upgrade> upgrades) {
             this.cellSize = cellSize;
             this.mapModel = mapModel;
             this.pacManImageProvider = pacManImageProvider;
             this.ghostModels = ghostModels;
             this.ghostStateProvider = ghostStateProvider;
+            this.upgrades = upgrades;
         }
 
         @Override
@@ -74,6 +80,19 @@
                 case -1 -> "icons/Walls/EmptyTile.png";
                 default -> null;
             };
+
+            synchronized (upgrades) {
+                for (Upgrade upgrade : upgrades) {
+                    if (upgrade.getRow() == row && upgrade.getCol() == column) {
+                        if (upgrade.getUpgradeType() == UpgradeType.SPEED_BOOST) {
+                            ImageIcon icon = new ImageIcon("icons/Upgrades/EnergyUpgradeTileOrange.png");
+                            Image scaled = icon.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
+                            label.setIcon(new ImageIcon(scaled));
+                            return label;
+                        }
+                    }
+                }
+            }
 
 
 

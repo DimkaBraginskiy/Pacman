@@ -6,6 +6,7 @@ import Controller.PacManController;
 import Model.GhostModel;
 import Model.MapModel;
 import Model.MapTableModel;
+import Model.Upgrade;
 
 import javax.swing.*;
 import javax.swing.table.TableColumn;
@@ -20,9 +21,11 @@ public class MapRenderer extends JPanel {
     private MapTableModel tableModel;
     private final MapModel mapModel;
     private final ImageProvider pacManImageProvider;
+    private final List<Upgrade> upgrades;
 
     public MapRenderer(MapModel mapModel, int rows, int cols, int cellSize, ImageProvider pacManimageProvider, List<GhostModel> ghostModels,
-                       GhostStateProvider ghostStateProvider) {
+                       GhostStateProvider ghostStateProvider,
+                       List<Upgrade> upgrades) {
         setLayout(new BorderLayout());
 
         this.pacManImageProvider = pacManimageProvider;
@@ -30,6 +33,7 @@ public class MapRenderer extends JPanel {
         this.mapModel = mapModel;
         this.tableModel = new MapTableModel(mapModel);
         this.table = new JTable(tableModel);
+        this.upgrades = upgrades;
 
 
         // Set sizes
@@ -48,7 +52,7 @@ public class MapRenderer extends JPanel {
             table.getColumnModel().getColumn(i).setMaxWidth(cellSize);
 
             table.getColumnModel().getColumn(i).setCellRenderer(
-                    new MapCellRenderer(cellSize, mapModel, pacManimageProvider, ghostModels, ghostStateProvider));
+                    new MapCellRenderer(cellSize, mapModel, pacManimageProvider, ghostModels, ghostStateProvider, upgrades));
         }
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -92,7 +96,7 @@ public class MapRenderer extends JPanel {
             column.setPreferredWidth(newSize);
             column.setMinWidth(newSize);
             column.setMaxWidth(newSize);
-            column.setCellRenderer(new MapCellRenderer(newSize, mapModel, pacManImageProvider, ghostModels, ghostStateProvider));
+            column.setCellRenderer(new MapCellRenderer(newSize, mapModel, pacManImageProvider, ghostModels, ghostStateProvider, upgrades));
         }
 
         revalidate();

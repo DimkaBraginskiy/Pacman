@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GameController implements GhostStateProvider{
     private final MainFrame mainFrame;
@@ -17,6 +18,7 @@ public class GameController implements GhostStateProvider{
 
     private final List<GhostModel> ghostModels = new ArrayList<>();
     private final List<GhostController> ghostControllers = new ArrayList<>();
+    private final List<Upgrade> upgrades = new ArrayList<>();
 
 
     private volatile int score = 0;
@@ -73,7 +75,7 @@ public class GameController implements GhostStateProvider{
         }
 
 
-        gamePanel = new GamePanel(rows, cols, tileSize, mapModel, pacManController, ghostModels, this);
+        gamePanel = new GamePanel(rows, cols, tileSize, mapModel, pacManController, ghostModels, this, upgrades);
 
 
         gamePanel.addKeyListener(pacManController.getKeyAdapter());
@@ -102,6 +104,7 @@ public class GameController implements GhostStateProvider{
 
         gamePanel.requestFocusInWindow();
         startTimeCounterThread();
+        startUpgradeSpawner();
     }
 
     public void increaseScore(){
@@ -123,6 +126,46 @@ public class GameController implements GhostStateProvider{
             lifes--;
         }
         gamePanel.updateLifes(lifes);
+    }
+
+    private void startUpgradeSpawner() {
+        Thread upgradeThread = new Thread(() -> {
+            while (!gameEnded) {
+                try {
+                    Thread.sleep(5000);
+
+                    boolean anyUpgradeSpawned = false;
+
+                    for (GhostModel ghost : ghostModels) {
+                        if (Math.random() < 0.25) {
+                            int row = ghost.getY();
+                            int col = ghost.getX();
+
+                            UpgradeType type = UpgradeType.SPEED_BOOST; // test with one for now
+
+                            Upgrade upgrade = new Upgrade(row, col, type);
+                            synchronized (upgrades) {
+                                upgrades.add(upgrade);
+                            }
+                            anyUpgradeSpawned = true;
+                        }
+                    }
+
+                    if (anyUpgradeSpawned) {
+                        SwingUtilities.invokeLater(() -> {
+                            gamePanel.getMapRenderer().repaint();
+                        });
+                    }
+
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+        });
+
+        upgradeThread.setDaemon(true); // optional: won't prevent app from exiting
+        upgradeThread.start();
     }
 
     private void startTimeCounterThread(){
