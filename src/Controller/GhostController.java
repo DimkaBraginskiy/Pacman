@@ -33,34 +33,36 @@ public class GhostController {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                return;
             }
             while(true){
+                try{
+                    //Direction nextDir = chooseRandomDirection();
+                    Direction nextDir = chooseDirection();
 
-                //Direction nextDir = chooseRandomDirection();
-                Direction nextDir = chooseDirection();
+                    System.out.println("Ghost direction: " + nextDir);
 
-                System.out.println("Ghost direction: " + nextDir);
+                    int oldX = model.getX();
+                    int oldY = model.getY();
 
-                int oldX = model.getX();
-                int oldY = model.getY();
+                    model.setDirection(nextDir);
+                    model.move();
 
-                model.setDirection(nextDir);
-                model.move();
+                    int newX = model.getX();
+                    int newY = model.getY();
 
-                int newX = model.getX();
-                int newY = model.getY();
+                    SwingUtilities.invokeLater(()->{
+                        gameController.getMapRenderer().getTableModel().fireTableCellUpdated(oldY, oldX);
+                        gameController.getMapRenderer().getTableModel().fireTableCellUpdated(newY, newX);
+                    });
 
-                SwingUtilities.invokeLater(()->{
-                    gameController.getMapRenderer().getTableModel().fireTableCellUpdated(oldY, oldX);
-                    gameController.getMapRenderer().getTableModel().fireTableCellUpdated(newY, newX);
-                });
 
-                try {
                     Thread.sleep(300);
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    Thread.currentThread().interrupt();
+                    break;
                 }
+
             }
         });
         movementThread.start();

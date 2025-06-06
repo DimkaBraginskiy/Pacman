@@ -7,6 +7,7 @@ import Model.MapModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.List;
 import java.awt.event.KeyAdapter;
 import java.util.ArrayList;
@@ -47,6 +48,21 @@ public class GamePanel extends JPanel {
         hudPanel.add(scoreLabel);
         hudPanel.add(timeLabel);
         add(hudPanel, BorderLayout.SOUTH);
+    }
+
+    public void exitShortcut(Runnable exitAction){
+        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = getActionMap();
+
+        KeyStroke keyStroke = KeyStroke.getKeyStroke("ctrl shift Q");
+
+        inputMap.put(keyStroke, "exitAction");
+        actionMap.put("exitAction", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                exitAction.run();
+            }
+        });
     }
 
     public void updateScore(int score){

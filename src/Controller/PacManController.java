@@ -66,7 +66,7 @@ public class PacManController implements  ImageProvider{
                         Thread.sleep(180);
 
                     } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                        Thread.currentThread().interrupt();
                     }
                 }
             });
@@ -88,7 +88,7 @@ public class PacManController implements  ImageProvider{
 
                         Thread.sleep(150);
                     } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                        Thread.currentThread().interrupt();
                     }
                 }
             });
@@ -99,6 +99,9 @@ public class PacManController implements  ImageProvider{
     public void stopThread() {
         if (movementThread != null) {
             movementThread.interrupt();
+        }
+        if (animationThread != null) {
+            animationThread.interrupt();
         }
     }
 

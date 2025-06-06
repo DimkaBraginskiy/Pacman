@@ -79,6 +79,13 @@ public class GameController implements GhostStateProvider{
         gamePanel.addKeyListener(pacManController.getKeyAdapter());
 
 
+        //exit shortcut:
+        gamePanel.exitShortcut(() -> {
+            stopAllThreads();
+            mainFrame.showPanel("MainMenu");
+        });
+
+
 
         for(GhostModel ghostModel : ghostModels){
             GhostController ghostController = new GhostController(ghostModel, pacManModel, this);
@@ -183,7 +190,7 @@ public class GameController implements GhostStateProvider{
     }
 
     public void stopAllThreads(){
-
+        pacManController.stopThread();
 
         for(GhostController ghostModel : ghostControllers){
             ghostModel.stopThread();

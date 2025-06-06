@@ -69,6 +69,11 @@ public class MapRenderer extends JPanel {
 
         //add(table, BorderLayout.CENTER);
         //setPreferredSize(new Dimension(cols * cellSize, rows * cellSize));
+
+        //FOR PROPER RESIZING FROM THE BEGINNING.
+        SwingUtilities.invokeLater(() -> {
+            resizeTableCells(getWidth(), getHeight(), ghostModels, ghostStateProvider);
+        });
     }
 
     private void resizeTableCells(int width, int height, List<GhostModel> ghostModels, GhostStateProvider ghostStateProvider){
