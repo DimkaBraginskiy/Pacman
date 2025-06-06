@@ -122,6 +122,14 @@ public class GameController implements GhostStateProvider{
         gamePanel.updateScore(score);
     }
 
+    public void increaseLifes(){
+        synchronized (this){
+            lifes++;
+        }
+        gamePanel.updateLifes(lifes);
+        pacManModel.increaseLife();
+    }
+
     public void decreaseLifes(){
         synchronized (this){
             lifes--;
@@ -146,6 +154,31 @@ public class GameController implements GhostStateProvider{
         resetSpeedThread.start();
     }
 
+    public void activateSlowGhosts() {
+
+        for (GhostModel ghost : ghostModels) {
+
+            ghost.setMovementDelay(800);
+        }
+
+        Thread resetSpeedThread = new Thread(() -> {
+            try {
+                // manking ghosts to sleep for 5 seconds:
+                Thread.sleep(5000);
+
+            } catch (InterruptedException ignored) {
+            } finally {
+                for (GhostModel ghost : ghostModels) {
+
+                    ghost.setMovementDelay(300);
+                }
+            }
+        });
+
+        resetSpeedThread.setDaemon(true);
+        resetSpeedThread.start();
+    }
+
     private void startUpgradeSpawner() {
         Thread upgradeThread = new Thread(() -> {
             while (!gameEnded) {
@@ -159,7 +192,8 @@ public class GameController implements GhostStateProvider{
                             int row = ghost.getY();
                             int col = ghost.getX();
 
-                            UpgradeType type = UpgradeType.SPEED_BOOST; // test with one for now
+                            UpgradeType[] allTypes = UpgradeType.values();
+                            UpgradeType type = allTypes[new Random().nextInt(allTypes.length)];
 
                             Upgrade upgrade = new Upgrade(row, col, type);
                             synchronized (upgrades) {
@@ -185,6 +219,27 @@ public class GameController implements GhostStateProvider{
 
         upgradeThread.setDaemon(true); // optional: won't prevent app from exiting
         upgradeThread.start();
+    }
+
+    public void teleportPacMan() {
+        int[][] map = pacManModel.getMapModel().getMap();
+        Random rand = new Random();
+        int rows = map.length;
+        int cols = map[0].length;
+
+        while (true) {
+            int y = rand.nextInt(rows);
+            int x = rand.nextInt(cols);
+
+            boolean isWall = map[y][x] == 1;
+            boolean isGhost = ghostModels.stream().anyMatch(g -> g.getX() == x && g.getY() == y);
+
+            if (!isWall && !isGhost) {
+                pacManModel.setPosition(x, y);
+                getMapRenderer().repaint();  // Update the visual map
+                break;
+            }
+        }
     }
 
     private void startTimeCounterThread(){
@@ -226,6 +281,26 @@ public class GameController implements GhostStateProvider{
 
             mainFrame.showPanel("MainMenu");
         });
+    }
+
+    public void activateStopGhosts() {
+        for (GhostModel ghost : ghostModels) {
+            ghost.setFrozen(true);
+        }
+
+        Thread unfreezeThread = new Thread(() -> {
+            try {
+                Thread.sleep(5000); // Freeze for 5 seconds
+            } catch (InterruptedException ignored) {
+            } finally {
+                for (GhostModel ghost : ghostModels) {
+                    ghost.setFrozen(false);
+                }
+            }
+        });
+
+        unfreezeThread.setDaemon(true);
+        unfreezeThread.start();
     }
 
     public void handleGameWin() {

@@ -174,20 +174,31 @@ public class PacManController implements  ImageProvider{
         List<Upgrade> upgrades = gameController.getUpgrades();
         synchronized (upgrades) {
             Upgrade toRemove = null;
+
             for (Upgrade upgrade : upgrades) {
                 if (upgrade.getRow() == row && upgrade.getCol() == col) {
-                    if (upgrade.getUpgradeType() == UpgradeType.SPEED_BOOST) {
-                        toRemove = upgrade;
-                        gameController.activateSpeedBoost();
-                        break;
+                    switch (upgrade.getUpgradeType()) {
+
+                        case SPEED_BOOST -> gameController.activateSpeedBoost();
+                        case EXTRA_LIFE -> gameController.increaseLifes();
+                        case TELEPORT -> gameController.teleportPacMan();
+                        case STOP_GHOSTS -> gameController.activateStopGhosts();
+                        case SLOW_GHOSTS -> gameController.activateSlowGhosts();
+
+
                     }
+                    toRemove = upgrade;
+                    break;
                 }
             }
+
             if (toRemove != null) {
                 upgrades.remove(toRemove);
             }
         }
     }
+
+
     @Override
     public ImageIcon getCurrentImageIcon(){
             if(currentDirection == Direction.NONE){

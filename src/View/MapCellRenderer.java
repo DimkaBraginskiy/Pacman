@@ -84,12 +84,23 @@
             synchronized (upgrades) {
                 for (Upgrade upgrade : upgrades) {
                     if (upgrade.getRow() == row && upgrade.getCol() == column) {
-                        if (upgrade.getUpgradeType() == UpgradeType.SPEED_BOOST) {
-                            ImageIcon icon = new ImageIcon("icons/Upgrades/EnergyUpgradeTileOrange.png");
+
+                            ImageIcon icon = null;
+
+                            switch (upgrade.getUpgradeType()) {
+                                case SPEED_BOOST -> icon = new ImageIcon("icons/Upgrades/EnergyUpgradeTileOrange.png");
+                                case EXTRA_LIFE -> icon = new ImageIcon("icons/Upgrades/LifeIncreaseUpgrade.png");
+                                case TELEPORT -> icon = new ImageIcon("icons/Upgrades/TeleportUpgrade.png");
+                                case SLOW_GHOSTS -> icon = new ImageIcon("icons/Upgrades/SlowGhost.png");
+                                case STOP_GHOSTS -> icon = new ImageIcon("icons/Upgrades/StopGhost.png");
+                            }
+
+                        if (icon != null && icon.getImage() != null) {
                             Image scaled = icon.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
                             label.setIcon(new ImageIcon(scaled));
-                            return label;
                         }
+                            return label;
+
                     }
                 }
             }

@@ -9,6 +9,8 @@ public class GhostModel implements СreatureModel{
     private final int tileSize;
     private final MapModel mapModel; // not final for map regeneration ability
     private final String color;
+    private volatile boolean frozen = false;
+    private volatile int movementDelay = 300;
 
 
     private final double aggressionFactor;
@@ -115,5 +117,21 @@ public class GhostModel implements СreatureModel{
 
     public String getColor() {
         return color;
+    }
+
+    public boolean isFrozen() {
+        return frozen;
+    }
+
+    public void setFrozen(boolean frozen) {
+        this.frozen = frozen;
+    }
+
+    public int getMovementDelay() {
+        return movementDelay;
+    }
+
+    public void setMovementDelay(int movementDelay) {
+        this.movementDelay = movementDelay;
     }
 }

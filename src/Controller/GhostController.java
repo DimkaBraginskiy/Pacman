@@ -37,6 +37,12 @@ public class GhostController {
             }
             while(true){
                 try{
+                    if (model.isFrozen()) {
+                        Thread.sleep(5000);
+                        continue;
+                    }
+
+
                     //Direction nextDir = chooseRandomDirection();
                     Direction nextDir = chooseDirection();
 
@@ -57,7 +63,7 @@ public class GhostController {
                     });
 
 
-                    Thread.sleep(300);
+                    Thread.sleep(model.getMovementDelay());
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;

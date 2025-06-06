@@ -135,6 +135,10 @@ public class PacManModel implements СreatureModel{
         return tileSize;
     }
 
+    public void increaseLife() {
+        this.lives++;
+    }
+
     public int getMovementDelay() {
         return movementDelay;
     }
@@ -145,5 +149,16 @@ public class PacManModel implements СreatureModel{
 
     public void resetMovementDelay() {
         this.movementDelay = DEFAULT_MOVEMENT_DELAY;
+    }
+
+    public MapModel getMapModel() {
+        return mapModel;
+    }
+
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+        mapModel.setPacManPosition(x, y);
     }
 }
