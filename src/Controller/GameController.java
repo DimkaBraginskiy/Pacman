@@ -28,6 +28,7 @@ public class GameController implements GhostStateProvider{
     private volatile boolean isEatingEnabled = false;
     private volatile boolean gameEnded = false;
 
+    private Thread eatingThread;
 
 
     public GameController(MainFrame mainFrame, int rows, int cols, int tileSize) {
@@ -128,6 +129,23 @@ public class GameController implements GhostStateProvider{
         gamePanel.updateLifes(lifes);
     }
 
+    public void activateSpeedBoost(){
+        pacManModel.setMovementDelay(50);
+
+        Thread resetSpeedThread = new Thread(() -> {
+            try {
+                Thread.sleep(5000); // Speed boost lasts for 5 seconds
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } finally {
+                pacManModel.resetMovementDelay();
+            }
+        });
+
+        resetSpeedThread.setDaemon(true);
+        resetSpeedThread.start();
+    }
+
     private void startUpgradeSpawner() {
         Thread upgradeThread = new Thread(() -> {
             while (!gameEnded) {
@@ -155,6 +173,7 @@ public class GameController implements GhostStateProvider{
                         SwingUtilities.invokeLater(() -> {
                             gamePanel.getMapRenderer().repaint();
                         });
+                        Thread.sleep(100);
                     }
 
                 } catch (InterruptedException e) {
@@ -255,18 +274,18 @@ public class GameController implements GhostStateProvider{
 
 
     public void activateEatingMode(){
+        if (eatingThread != null && eatingThread.isAlive()) return;
+
         isEatingEnabled = true;
-
-
-        new Thread(() -> {
+        eatingThread = new Thread(() -> {
             try {
-                Thread.sleep(10000); // 10 seconds
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+                Thread.sleep(10000);
+            } catch (InterruptedException ignored) {
             } finally {
                 isEatingEnabled = false;
             }
-        }).start();
+        });
+        eatingThread.start();
     }
 
     @Override
@@ -286,5 +305,7 @@ public class GameController implements GhostStateProvider{
         return gamePanel.getMapRenderer();
     }
 
-
+    public List<Upgrade> getUpgrades() {
+        return upgrades;
+    }
 }

@@ -12,6 +12,10 @@ public class PacManModel implements СreatureModel{
     private final MapTableModel mapTableModel;
     private int lives = 3;
 
+    private static final int DEFAULT_MOVEMENT_DELAY = 180;
+
+    private volatile int movementDelay = DEFAULT_MOVEMENT_DELAY;
+
     public PacManModel(int startX, int startY,
                        int tileSize,
                        MapModel mapModel,
@@ -129,5 +133,17 @@ public class PacManModel implements СreatureModel{
     @Override
     public int getTileSize() {
         return tileSize;
+    }
+
+    public int getMovementDelay() {
+        return movementDelay;
+    }
+
+    public void setMovementDelay(int movementDelay) {
+        this.movementDelay = movementDelay;
+    }
+
+    public void resetMovementDelay() {
+        this.movementDelay = DEFAULT_MOVEMENT_DELAY;
     }
 }

@@ -1,15 +1,14 @@
 package Controller;
 
-import Model.Direction;
-import Model.GhostModel;
-import Model.MapTableModel;
-import Model.PacManModel;
+import Model.*;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PacManController implements  ImageProvider{
@@ -58,12 +57,15 @@ public class PacManController implements  ImageProvider{
 
                         model.move();
 
+                        checkForUpgradeCollision();
+
                         SwingUtilities.invokeLater(() ->{
                             gameController.getMapRenderer().repaint();
                         });
 
                         checkForGhostCollision();
-                        Thread.sleep(180);
+
+                        Thread.sleep(model.getMovementDelay());
 
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
@@ -161,6 +163,28 @@ public class PacManController implements  ImageProvider{
                 }
 
 
+            }
+        }
+    }
+
+    private void checkForUpgradeCollision() {
+        int row = model.getY();
+        int col = model.getX();
+
+        List<Upgrade> upgrades = gameController.getUpgrades();
+        synchronized (upgrades) {
+            Upgrade toRemove = null;
+            for (Upgrade upgrade : upgrades) {
+                if (upgrade.getRow() == row && upgrade.getCol() == col) {
+                    if (upgrade.getUpgradeType() == UpgradeType.SPEED_BOOST) {
+                        toRemove = upgrade;
+                        gameController.activateSpeedBoost();
+                        break;
+                    }
+                }
+            }
+            if (toRemove != null) {
+                upgrades.remove(toRemove);
             }
         }
     }
