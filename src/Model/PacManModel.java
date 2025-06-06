@@ -82,6 +82,11 @@ public class PacManModel implements СreatureModel{
                 gameController.activateEatingMode();
             }
 
+            if (mapModel.areAllDotsEaten()) {
+                gameController.handleGameWin();
+                return;
+            }
+
             mapTableModel.fireTableCellUpdated(oldY,oldX);
             mapTableModel.fireTableCellUpdated(y,x);
 
@@ -125,5 +130,4 @@ public class PacManModel implements СreatureModel{
     public int getTileSize() {
         return tileSize;
     }
-
 }

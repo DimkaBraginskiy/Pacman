@@ -12,35 +12,36 @@ public class MainMenu extends JPanel {
     public JButton exitButton;
 
     public MainMenu(){
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new GridBagLayout());
         setBackground(Color.BLACK);
-        setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(15, 0, 15, 0); // space between components
 
         JLabel logo = new JLabel(iconGenerate("icons/Logos/MainLogo.png", 200, 200));
         JLabel logoText = new JLabel(iconGenerate("icons/Logos/LogoText.png", 250, 50));
-
-        logo.setAlignmentX(CENTER_ALIGNMENT);
-        logoText.setAlignmentX(CENTER_ALIGNMENT);
 
         startButton = generateButton("icons/Buttons/NewGameNormal.png", "icons/Buttons/NewGameHover.png");
         scoresButton = generateButton("icons/Buttons/ScoresNormal.png", "icons/Buttons/ScoresHover.png");
         exitButton = generateButton("icons/Buttons/ExitNormal.png", "icons/Buttons/ExitHover.png");
 
-        startButton.setAlignmentX(CENTER_ALIGNMENT);
-        scoresButton.setAlignmentX(CENTER_ALIGNMENT);
-        exitButton.setAlignmentX(CENTER_ALIGNMENT);
+        int row = 0;
+        gbc.gridy = row++;
+        add(logo, gbc);
 
-        add(Box.createVerticalGlue());
-        add(logo);
-        add(Box.createVerticalStrut(10));
-        add(logoText);
-        add(Box.createVerticalStrut(30));
-        add(startButton);
-        add(Box.createVerticalStrut(20));
-        add(scoresButton);
-        add(Box.createVerticalStrut(20));
-        add(exitButton);
-        add(Box.createVerticalGlue());
+        gbc.gridy = row++;
+        add(logoText, gbc);
+
+        gbc.gridy = row++;
+        add(startButton, gbc);
+
+        gbc.gridy = row++;
+        add(scoresButton, gbc);
+
+        gbc.gridy = row++;
+        add(exitButton, gbc);
     }
 
     private JButton generateButton(String iconPath, String hoverPath) {
@@ -50,17 +51,14 @@ public class MainMenu extends JPanel {
         button.setBorderPainted(false);
         button.setFocusPainted(false);
         button.setBorder(null);
-
         return button;
     }
 
-    private ImageIcon iconGenerate(String path, int sizeX, int sizeY){
+    private ImageIcon iconGenerate(String path, int sizeX, int sizeY) {
         ImageIcon icon = new ImageIcon(path);
         Image originImage = icon.getImage();
         Image scaledImage = originImage.getScaledInstance(sizeX, sizeY, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon();
-        scaledIcon.setImage(scaledImage);
-        return scaledIcon;
+        return new ImageIcon(scaledImage);
     }
 
 }

@@ -246,6 +246,15 @@ public class MapModel {
         }
     }
 
+    public boolean areAllDotsEaten() {
+        for (int[] row : map) {
+            for (int cell : row) {
+                if (cell == 2 || cell == 3) return false;
+            }
+        }
+        return true;
+    }
+
 
     public int getCell(int row, int col){
         return map[row][col];

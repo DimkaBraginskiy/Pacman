@@ -11,40 +11,32 @@ public class MapSizeChooser extends JPanel {
 
     public MapSizeChooser(){
         setBackground(Color.BLACK);
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new GridBagLayout());
 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10, 0, 10, 0); // space between components
 
+        int row = 0;
 
-        topText = new JLabel(iconGenerate("icons/Buttons/SelectMapText.png", 300, 100));
-        topText.setAlignmentX(CENTER_ALIGNMENT);
-        add(topText);
-        add(Box.createVerticalStrut(20));
+        JLabel topText = new JLabel(iconGenerate("icons/Buttons/SelectMapText.png", 300, 100));
+        gbc.gridy = row++;
+        add(topText, gbc);
 
-        button10 = generateButton("icons/Buttons/10x10Hover.png","icons/Buttons/10x10Normal.png");
-        button12 = generateButton("icons/Buttons/12x12Hover.png","icons/Buttons/12x12Normal.png");
-        button16 = generateButton("icons/Buttons/16x16Hover.png","icons/Buttons/16x16Normal.png");
-        button20 = generateButton("icons/Buttons/20x20Hover.png","icons/Buttons/20x20Normal.png");
-        button24 = generateButton("icons/Buttons/24x24Hover.png","icons/Buttons/24x24Normal.png");
-        buttonCustom = generateButton("icons/Buttons/CustomSizeButtonHover.png","icons/Buttons/CustomSizeButtonNormal.png");
+        button10 = generateButton("icons/Buttons/10x10Hover.png", "icons/Buttons/10x10Normal.png");
+        button12 = generateButton("icons/Buttons/12x12Hover.png", "icons/Buttons/12x12Normal.png");
+        button16 = generateButton("icons/Buttons/16x16Hover.png", "icons/Buttons/16x16Normal.png");
+        button20 = generateButton("icons/Buttons/20x20Hover.png", "icons/Buttons/20x20Normal.png");
+        button24 = generateButton("icons/Buttons/24x24Hover.png", "icons/Buttons/24x24Normal.png");
+        buttonCustom = generateButton("icons/Buttons/CustomSizeButtonHover.png", "icons/Buttons/CustomSizeButtonNormal.png");
 
-        button10.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button12.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button16.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button20.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button24.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttonCustom.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        add(button10);
-        add(Box.createVerticalStrut(10));
-        add(button12);
-        add(Box.createVerticalStrut(10));
-        add(button16);
-        add(Box.createVerticalStrut(10));
-        add(button20);
-        add(Box.createVerticalStrut(10));
-        add(button24);
-        add(Box.createVerticalStrut(10));
-        add(buttonCustom);
+        gbc.gridy = row++; add(button10, gbc);
+        gbc.gridy = row++; add(button12, gbc);
+        gbc.gridy = row++; add(button16, gbc);
+        gbc.gridy = row++; add(button20, gbc);
+        gbc.gridy = row++; add(button24, gbc);
+        gbc.gridy = row++; add(buttonCustom, gbc);
     }
 
     private JButton generateButton(String iconPath, String hoverPath) {
@@ -54,20 +46,12 @@ public class MapSizeChooser extends JPanel {
         button.setBorderPainted(false);
         button.setFocusPainted(false);
         button.setBorder(null);
-
         return button;
     }
 
-    private ImageIcon iconGenerate(String path, int sizeX, int sizeY){
+    private ImageIcon iconGenerate(String path, int sizeX, int sizeY) {
         ImageIcon icon = new ImageIcon(path);
-        Image originImage = icon.getImage();
-        Image scaledImage = originImage.getScaledInstance(sizeX, sizeY, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon();
-        scaledIcon.setImage(scaledImage);
-        return scaledIcon;
+        Image scaledImage = icon.getImage().getScaledInstance(sizeX, sizeY, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImage);
     }
-
-
-
-
 }

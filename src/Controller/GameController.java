@@ -4,6 +4,7 @@ import Model.*;
 import View.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +18,18 @@ public class GameController implements GhostStateProvider{
     private final List<GhostModel> ghostModels = new ArrayList<>();
     private final List<GhostController> ghostControllers = new ArrayList<>();
 
+
     private volatile int score = 0;
     private volatile int timeInSeconds = 0;
     private volatile int lifes = 3;
 
     private volatile boolean isEatingEnabled = false;
+    private volatile boolean gameEnded = false;
+
 
 
     public GameController(MainFrame mainFrame, int rows, int cols, int tileSize) {
+
         this.mainFrame = mainFrame;
         MapModel mapModel = new MapModel(rows, cols);
 
@@ -133,10 +138,16 @@ public class GameController implements GhostStateProvider{
     }
 
     public void handleGameOver(){
+        if (gameEnded) return;
         SwingUtilities.invokeLater(()->{
             stopAllThreads();
 
-            GameOverDialog gameOverDialog = new GameOverDialog(mainFrame, score);
+            GameOverDialog gameOverDialog = new GameOverDialog(
+                    mainFrame,
+                    score,
+                    "Game over! :(",
+                    "Enter you name to be saved to leaderboard:",
+                    Color.RED);
             gameOverDialog.setVisible(true);
 
             if(gameOverDialog.isConfirmed()){
@@ -146,7 +157,29 @@ public class GameController implements GhostStateProvider{
 
             mainFrame.showPanel("MainMenu");
         });
+    }
 
+    public void handleGameWin() {
+        if (gameEnded) return;
+        SwingUtilities.invokeLater(() -> {
+            stopAllThreads();
+
+            GameOverDialog gameWinDialog = new GameOverDialog(
+                    mainFrame,
+                    score,
+                    "Congratulations!",
+                    "You have collected all the dots!Enter your name for the leaderboard:",
+                    Color.GREEN
+            );
+            gameWinDialog.setVisible(true);
+
+            if (gameWinDialog.isConfirmed()) {
+                String name = gameWinDialog.getPlayerName();
+                mainFrame.getHighScoreManager().addScore(new HighScore(name, score));
+            }
+
+            mainFrame.showPanel("MainMenu");
+        });
     }
 
     public void stopAllThreads(){
@@ -169,6 +202,7 @@ public class GameController implements GhostStateProvider{
 
         }
     }
+
 
     public void activateEatingMode(){
         isEatingEnabled = true;

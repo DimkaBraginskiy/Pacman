@@ -7,7 +7,7 @@ public class GhostModel implements СreatureModel{
     private final int startX, startY;
     private Direction direction = Direction.NONE;
     private final int tileSize;
-    private final MapModel mapModel;
+    private final MapModel mapModel; // not final for map regeneration ability
     private final String color;
 
 
@@ -116,5 +116,4 @@ public class GhostModel implements СreatureModel{
     public String getColor() {
         return color;
     }
-
 }
